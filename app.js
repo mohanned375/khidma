@@ -46,29 +46,30 @@ document.addEventListener('DOMContentLoaded', () => {
   showSearch();
 });
 
-/* ====== 2. FIREBASE setup (PASTE YOUR CONFIG HERE) ======
-   — بعد إنشاء مشروع Firebase: انسخ كائن config هنا.
-   مثال:
-   const firebaseConfig = {
-     apiKey: "XXX",
-     authDomain: "YOUR_PROJECT.firebaseapp.com",
-     databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
-     projectId: "YOUR_PROJECT",
-     storageBucket: "YOUR_PROJECT.appspot.com",
-     messagingSenderId: "XXX",
-     appId: "1:...:web:..."
-   };
-*/
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
-  projectId: "YOUR_PROJECT",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
-};
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
 
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyBSujjNja7qC_Lamp8DTH-T_O2ia2ZzU0E",
+    authDomain: "khidma-5cbbc.firebaseapp.com",
+    databaseURL: "https://khidma-5cbbc-default-rtdb.firebaseio.com",
+    projectId: "khidma-5cbbc",
+    storageBucket: "khidma-5cbbc.firebasestorage.app",
+    messagingSenderId: "992721988153",
+    appId: "1:992721988153:web:77599e16ea175be6a2bbe8",
+    measurementId: "G-PBZ7HSXRJ4"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
 // Initialize Firebase (compat)
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
@@ -239,3 +240,4 @@ auth.onAuthStateChanged(user=>{
   // initial display: load approved providers
   searchServices();
 })();
+
