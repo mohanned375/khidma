@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget id="com.yourdomain.khidsa" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  <name>خدمة</name>
+  <description>منصة ربط العملاء بمقدمي الخدمات</description>
+  <author email="admin@yourdomain.com">Your Name</author>
+  <content src="index.html" />
+  <preference name="orientation" value="portrait" />
+  <preference name="Fullscreen" value="false" />
+  <access origin="*" />
+  <allow-intent href="tel:*" />
+  <allow-intent href="https://*/*" />
+  <allow-intent href="mailto:*" />
+  <icon src="icons/icon-192.png" density="mdpi" />
+  <icon src="icons/icon-512.png" density="xxxhdpi" />
+</widget>

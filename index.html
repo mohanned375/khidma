@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>خدمة — منصة ربط العملاء بمقدمي الخدمات</title>
+
+  <!-- PWA manifest -->
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- favicon (SVG data-uri) -->
+  <link rel="icon" href="data:image/svg+xml;utf8,
+    <svg xmlns='http://www.w3.org/2000/svg' width='192' height='192'>
+      <rect width='100%' height='100%' rx='28' fill='%2327ae60'/>
+      <text x='50%' y='58%' font-size='110' text-anchor='middle' fill='white' font-family='Tajawal,Arial,sans-serif' font-weight='700'>s</text>
+    </svg>">
+
+  <!-- Google font -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- styles -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="logo">
+        <div class="app-icon">s</div>
+        <div class="brand">منصة خدمة</div>
+      </div>
+
+      <nav class="nav">
+        <button id="menuToggle" class="menu-btn" aria-label="قائمة">☰</button>
+        <ul id="menuList" class="nav-list" hidden>
+          <li><a href="#" onclick="showSearch(); return false;">الرئيسية</a></li>
+          <li><a href="#" onclick="showServices(); return false;">الخدمات</a></li>
+          <li><a href="#" onclick="showSettings(); return false;">الإعدادات</a></li>
+          <li><a href="#" onclick="showContactPage(); return false;">اتصل بنا</a></li>
+        </ul>
+      </nav>
+
+      <div class="top-buttons">
+        <button id="searchBtn" class="btn btn-search" onclick="showSearch()">🔍 بحث</button>
+        <button id="registerBtn" class="btn btn-register" onclick="showRegisterForm()">📝 تسجيل مقدم خدمة</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container main">
+    <!-- Hero / intro -->
+    <section class="hero">
+      <h1>مرحباً في منصة خدمة</h1>
+      <p>نربط العملاء بمقدمي الخدمات في البناء، الكهرباء، السباكة، الميكانيكا، النجارة والحرف المتنوعة — ويمكنك إضافة صنف جديد بسهولة.</p>
+      <div class="hero-images">
+        <!-- example internet image (under construction) -->
+        <img src="https://vhv.rs/d/hTwobhw/building-and-construction-png-download-3d-building-transparent.png" alt="بيت تحت التشييد" width="200" height="300" style="object-fit:contain;">
+      </div>
+    </section>
+
+    <!-- Search / results -->
+    <section id="searchSection" class="panel" style="display:none;">
+      <div class="search-controls">
+        <input id="searchInput" class="search-input" placeholder="ابحث باسم المهنة أو المدينة..." />
+        <select id="categorySelect" class="category-select">
+          <option value="">كل الفئات</option>
+          <option value="electricity">كهرباء</option>
+          <option value="plumbing">سباكة</option>
+          <option value="mechanics">ميكانيكا</option>
+          <option value="carpentry">نجارة</option>
+          <option value="crafts">حرف يدوية</option>
+          <option value="cleaning">تنظيف</option>
+          <option value="painting">دهان</option>
+          <option value="gardening">بستنة</option>
+          <option value="other">أخرى</option>
+        </select>
+        <button class="btn btn-primary" onclick="searchServices()">بحث</button>
+      </div>
+
+      <div id="providersContainer" class="providers-grid"></div>
+    </section>
+
+    <!-- Register -->
+    <section id="registerSection" class="panel" style="display:none;">
+      <h2>تسجيل مقدم خدمة جديد</h2>
+      <form id="registerForm">
+        <input id="providerName" placeholder="الاسم الكامل" required />
+        <input id="providerPhone" placeholder="رقم الهاتف (مثال: 05xxxxxxxx)" required />
+        <input id="providerEmail" placeholder="البريد الإلكتروني (اختياري)" />
+        <select id="providerCategoryReg" required>
+          <option value="">اختر الفئة</option>
+          <option value="electricity">كهرباء</option>
+          <option value="plumbing">سباكة</option>
+          <option value="mechanics">ميكانيكا</option>
+          <option value="carpentry">نجارة</option>
+          <option value="crafts">حرف يدوية</option>
+          <option value="cleaning">تنظيف</option>
+          <option value="painting">دهان</option>
+          <option value="gardening">بستنة</option>
+          <option value="other">أخرى</option>
+        </select>
+        <input id="providerLocation" placeholder="المنطقة (مثال: الرياض)" required />
+        <input id="providerExperience" type="number" placeholder="سنوات الخبرة" min="0" />
+        <textarea id="providerDescription" placeholder="وصف مختصر عن الخدمات" required></textarea>
+        <input id="providerWhats" placeholder="رقم واتساب (مثال: 9665xxxxxxxx)" />
+        <button type="submit" class="btn btn-register-full">تسجيل</button>
+      </form>
+    </section>
+
+    <!-- Admin login / panel -->
+    <section id="adminLoginSection" class="panel" style="display:none;">
+      <h2>تسجيل دخول المدير</h2>
+      <form id="adminLoginForm">
+        <input id="adminEmail" placeholder="البريد الإلكتروني" required />
+        <input id="adminPassword" type="password" placeholder="كلمة المرور" required />
+        <button type="submit" class="btn btn-primary">دخول</button>
+      </form>
+    </section>
+
+    <section id="adminPanel" class="panel" style="display:none;">
+      <h2>لوحة الإدارة</h2>
+      <div id="adminStats"></div>
+      <div id="allProvidersAdmin"></div>
+      <button class="btn btn-danger" onclick="signOutAdmin()">تسجيل خروج</button>
+    </section>
+
+    <!-- Contact page -->
+    <section id="contactSection" class="panel" style="display:none;">
+      <h2>اتصل بنا</h2>
+      <p>للدعم أو الشكاوى: <a href="mailto:admin@yourdomain.com">admin@yourdomain.com</a></p>
+    </section>
+  </main>
+
+  <!-- contact modal -->
+  <div id="contactModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <button class="close" onclick="closeContactModal()">×</button>
+      <div id="contactInfo"></div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    © 2025 منصة خدمة — جميع الحقوق محفوظة
+  </footer>
+
+  <!-- firebase & app scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+  <!-- main application -->
+  <script src="app.js"></script>
+
+  <!-- register service worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').then(() => console.log('SW registered')).catch(e=>console.warn('SW failed', e));
+    }
+  </script>
+</body>
+</html>
