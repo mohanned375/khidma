@@ -1,41 +1,43 @@
-const CACHE_NAME = 'khidma-app-v1';
-const OFFLINE_URL = 'index.html';
-const assetsToCache = [
+const CACHE_NAME = 'service-platform-v1';
+const urlsToCache = [
   '/',
-  '/index.html',
-  '/style.css',
-  '/app.js',
-  '/manifest.json',
+  '/css/style.css',
+  '/js/app.js',
+  '/images/icon-192x192.png'
 ];
 
-// install
-self.addEventListener('install', event => {
+self.addEventListener('install', function(event) {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(assetsToCache)).then(()=>self.skipWaiting())
+    caches.open(CACHE_NAME)
+      .then(function(cache) {
+        return cache.addAll(urlsToCache);
+      })
   );
 });
 
-// activate
-self.addEventListener('activate', event => {
-  event.waitUntil(self.clients.claim());
+self.addEventListener('fetch', function(event) {
+  event.respondWith(
+    caches.match(event.request)
+      .then(function(response) {
+        if (response) {
+          return response;
+        }
+        return fetch(event.request);
+      }
+    )
+  );
 });
 
-// fetch
-self.addEventListener('fetch', event => {
-  const req = event.request;
-  event.respondWith(
-    caches.match(req).then(cached => {
-      if (cached) return cached;
-      return fetch(req).then(response => {
-        // optionally cache GET responses
-        if (req.method === 'GET' && response && response.status === 200) {
-          const copy = response.clone();
-          caches.open(CACHE_NAME).then(cache => {
-            cache.put(req, copy);
-          });
-        }
-        return response;
-      }).catch(()=> caches.match(OFFLINE_URL));
+self.addEventListener('activate', function(event) {
+  event.waitUntil(
+    caches.keys().then(function(cacheNames) {
+      return Promise.all(
+        cacheNames.map(function(cacheName) {
+          if (cacheName !== CACHE_NAME) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
     })
   );
 });
