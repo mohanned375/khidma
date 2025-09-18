@@ -1,160 +1,361 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>خدمة — منصة ربط العملاء بمقدمي الخدمات</title>
-
-  <!-- PWA manifest -->
-  <link rel="manifest" href="manifest.json" />
-
-  <!-- favicon (SVG data-uri) -->
-  <link rel="icon" href="data:image/svg+xml;utf8,
-    <svg xmlns='http://www.w3.org/2000/svg' width='192' height='192'>
-      <rect width='100%' height='100%' rx='28' fill='%2327ae60'/>
-      <text x='50%' y='58%' font-size='110' text-anchor='middle' fill='white' font-family='Tajawal,Arial,sans-serif' font-weight='700'>s</text>
-    </svg>">
-
-  <!-- Google font -->
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
-
-  <!-- styles -->
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة خدمة - ربط العملاء بمقدمي الخدمات</title>
+    <meta name="description" content="منصة لربط العملاء بمقدمي الخدمات في مختلف المجالات مثل البناء والكهرباء والسباكة والميكانيكا والنجارة">
+    <meta name="keywords" content="خدمات, بناء, كهرباء, سباكة, ميكانيكا, نجارة, حرف">
+    
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4CAF50">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="منصة خدمة">
+    <link rel="apple-touch-icon" href="images/icon-192x192.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/icon-192x192.png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <div class="logo">
-        <div class="app-icon">s</div>
-        <div class="brand">منصة خدمة</div>
-      </div>
+    <!-- شريط التنقل -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">
+                    <img src="images/icon-192x192.png" alt="منصة خدمة">
+                    منصة خدمة
+                </div>
+                
+                <button class="menu-toggle" onclick="toggleMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="#home">الرئيسية</a></li>
+                    <li><a href="#services">الخدمات</a></li>
+                    <li><a href="#about">حولنا</a></li>
+                    <li><a href="#contact">اتصل بنا</a></li>
+                </ul>
+                
+                <div class="nav-buttons">
+                    <button class="btn btn-primary" onclick="openRegisterModal()">
+                        <i class="fas fa-user-plus"></i> تسجيل مقدم خدمة
+                    </button>
+                    <button class="btn btn-secondary" onclick="openSearchModal()">
+                        <i class="fas fa-search"></i> البحث
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
 
-      <nav class="nav">
-        <button id="menuToggle" class="menu-btn" aria-label="قائمة">☰</button>
-        <ul id="menuList" class="nav-list" hidden>
-          <li><a href="#" onclick="showSearch(); return false;">الرئيسية</a></li>
-          <li><a href="#" onclick="showServices(); return false;">الخدمات</a></li>
-          <li><a href="#" onclick="showSettings(); return false;">الإعدادات</a></li>
-          <li><a href="#" onclick="showContactPage(); return false;">اتصل بنا</a></li>
-        </ul>
-      </nav>
+    <!-- القسم الرئيسي -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>مرحباً بك في منصة خدمة</h1>
+            <p>نربط بين العملاء ومقدمي الخدمات في جميع المجالات</p>
+            
+            <div class="search-container">
+                <input type="text" class="search-box" placeholder="ابحث عن الخدمة التي تحتاجها..." id="mainSearch">
+                <button class="search-btn" onclick="performSearch()">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </section>
 
-      <div class="top-buttons">
-        <button id="searchBtn" class="btn btn-search" onclick="showSearch()">🔍 بحث</button>
-        <button id="registerBtn" class="btn btn-register" onclick="showRegisterForm()">📝 تسجيل مقدم خدمة</button>
-      </div>
+    <!-- قسم الخدمات -->
+    <section class="services" id="services">
+        <div class="container">
+            <h2 class="section-title">خدماتنا</h2>
+            
+            <div class="services-grid">
+                <div class="service-card" onclick="searchByCategory('بناء')">
+                    <img src="images/XPbtpaXVQouI.jpg" alt="خدمات البناء">
+                    <h3>خدمات البناء</h3>
+                    <p>مقاولون ومهندسون متخصصون في أعمال البناء والتشييد</p>
+                </div>
+                
+                <div class="service-card" onclick="searchByCategory('كهرباء')">
+                    <img src="images/S8x8qpDspmIl.jpg" alt="خدمات الكهرباء">
+                    <h3>خدمات الكهرباء</h3>
+                    <p>فنيون كهربائيون محترفون لجميع أعمال الكهرباء</p>
+                </div>
+                
+                <div class="service-card" onclick="searchByCategory('سباكة')">
+                    <img src="images/hOAzW15l16XX.jpg" alt="خدمات السباكة">
+                    <h3>خدمات السباكة</h3>
+                    <p>سباكون مهرة لحل جميع مشاكل السباكة والصرف الصحي</p>
+                </div>
+                
+                <div class="service-card" onclick="searchByCategory('ميكانيكا')">
+                    <img src="images/5oOyfntakBNl.jpg" alt="خدمات الميكانيكا">
+                    <h3>خدمات الميكانيكا</h3>
+                    <p>ميكانيكيون متخصصون في صيانة وإصلاح السيارات</p>
+                </div>
+                
+                <div class="service-card" onclick="searchByCategory('نجارة')">
+                    <img src="images/uURBjAmLHdwE.jpg" alt="خدمات النجارة">
+                    <h3>خدمات النجارة</h3>
+                    <p>نجارون ماهرون في صناعة وإصلاح الأثاث الخشبي</p>
+                </div>
+                
+                <div class="service-card" onclick="searchByCategory('حرف')">
+                    <img src="images/xwWSw3hMytJp.jpg" alt="الأعمال الحرفية">
+                    <h3>الأعمال الحرفية</h3>
+                    <p>حرفيون متخصصون في مختلف الأعمال اليدوية والفنية</p>
+                </div>
+                
+                <div class="service-card" onclick="openOtherServiceModal()">
+                    <img src="images/oqmoWLbymFcs.jpg" alt="خدمات أخرى">
+                    <h3>خدمات أخرى</h3>
+                    <p>خدمات متنوعة أخرى حسب احتياجاتك</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم المميزات -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">لماذا تختار منصة خدمة؟</h2>
+            
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>سهولة التواصل</h3>
+                    <p>تواصل مباشر مع مقدمي الخدمات عبر الهاتف أو الواتساب</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>موثوقية عالية</h3>
+                    <p>جميع مقدمي الخدمات مسجلون ومعتمدون في المنصة</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>توفير الوقت</h3>
+                    <p>ابحث واعثر على الخدمة المطلوبة في دقائق معدودة</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <h3>مجاني تماماً</h3>
+                    <p>استخدام المنصة مجاني للعملاء ومقدمي الخدمات</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم نتائج البحث -->
+    <section class="search-results" id="searchResults" style="display: none;">
+        <div class="container">
+            <h2 class="section-title">نتائج البحث</h2>
+            <div class="loading" id="loading"></div>
+            <div class="providers-list" id="providersList"></div>
+        </div>
+    </section>
+
+    <!-- التذييل -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>منصة خدمة</h3>
+                    <p>نربط بين العملاء ومقدمي الخدمات في جميع المجالات لتسهيل الحصول على الخدمات المطلوبة بسرعة وسهولة.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>روابط سريعة</h3>
+                    <ul>
+                        <li><a href="#home">الرئيسية</a></li>
+                        <li><a href="#services">الخدمات</a></li>
+                        <li><a href="#about">حولنا</a></li>
+                        <li><a href="#contact">اتصل بنا</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>تواصل معنا</h3>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> mohanned20013@gmail.com</li>
+                        <li><i class="fas fa-phone"></i> 0965640434</li>
+                        <li><i class="fas fa-map-marker-alt"></i> القرشي-السودان</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 منصة خدمة. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- نموذج تسجيل مقدم الخدمة -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('registerModal')">&times;</span>
+            <h2>تسجيل مقدم خدمة جديد</h2>
+            
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="providerName">الاسم الكامل:</label>
+                    <input type="text" id="providerName" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="providerPhone">رقم الهاتف:</label>
+                    <input type="tel" id="providerPhone" name="phone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="providerService">نوع الخدمة:</label>
+                    <select id="providerService" name="service" required>
+                        <option value="">اختر نوع الخدمة</option>
+                        <option value="بناء">خدمات البناء</option>
+                        <option value="كهرباء">خدمات الكهرباء</option>
+                        <option value="سباكة">خدمات السباكة</option>
+                        <option value="ميكانيكا">خدمات الميكانيكا</option>
+                        <option value="نجارة">خدمات النجارة</option>
+                        <option value="حرف">الأعمال الحرفية</option>
+                        <option value="أخرى">أخرى</option>
+                    </select>
+                </div>
+                
+                <div class="form-group" id="otherServiceGroup" style="display: none;">
+                    <label for="otherService">حدد نوع الخدمة:</label>
+                    <input type="text" id="otherService" name="otherService">
+                </div>
+                
+                <div class="form-group">
+                    <label for="providerCity">المدينة:</label>
+                    <input type="text" id="providerCity" name="city" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="providerDescription">وصف الخدمة:</label>
+                    <textarea id="providerDescription" name="description" placeholder="اكتب وصفاً مختصراً عن خدماتك وخبرتك"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="providerExperience">سنوات الخبرة:</label>
+                    <input type="number" id="providerExperience" name="experience" min="0" max="50">
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-user-plus"></i> تسجيل
+                </button>
+            </form>
+            
+            <div class="alert alert-success" id="registerSuccess">
+                تم تسجيلك بنجاح! سيتم مراجعة بياناتك والموافقة عليها قريباً.
+            </div>
+            
+            <div class="alert alert-error" id="registerError">
+                حدث خطأ أثناء التسجيل. يرجى المحاولة مرة أخرى.
+            </div>
+        </div>
     </div>
-  </header>
 
-  <main class="container main">
-    <!-- Hero / intro -->
-    <section class="hero">
-      <h1>مرحباً في منصة خدمة</h1>
-      <p>نربط العملاء بمقدمي الخدمات في البناء، الكهرباء، السباكة، الميكانيكا، النجارة والحرف المتنوعة — ويمكنك إضافة صنف جديد بسهولة.</p>
-      <div class="hero-images">
-        <!-- example internet image (under construction) -->
-        <img src="https://vhv.rs/d/hTwobhw/building-and-construction-png-download-3d-building-transparent.png" alt="بيت تحت التشييد" width="200" height="300" style="object-fit:contain;">
-      </div>
-    </section>
-
-    <!-- Search / results -->
-    <section id="searchSection" class="panel" style="display:none;">
-      <div class="search-controls">
-        <input id="searchInput" class="search-input" placeholder="ابحث باسم المهنة أو المدينة..." />
-        <select id="categorySelect" class="category-select">
-          <option value="">كل الفئات</option>
-          <option value="electricity">كهرباء</option>
-          <option value="plumbing">سباكة</option>
-          <option value="mechanics">ميكانيكا</option>
-          <option value="carpentry">نجارة</option>
-          <option value="crafts">حرف يدوية</option>
-          <option value="cleaning">تنظيف</option>
-          <option value="painting">دهان</option>
-          <option value="gardening">بستنة</option>
-          <option value="other">أخرى</option>
-        </select>
-        <button class="btn btn-primary" onclick="searchServices()">بحث</button>
-      </div>
-
-      <div id="providersContainer" class="providers-grid"></div>
-    </section>
-
-    <!-- Register -->
-    <section id="registerSection" class="panel" style="display:none;">
-      <h2>تسجيل مقدم خدمة جديد</h2>
-      <form id="registerForm">
-        <input id="providerName" placeholder="الاسم الكامل" required />
-        <input id="providerPhone" placeholder="رقم الهاتف (مثال: 05xxxxxxxx)" required />
-        <input id="providerEmail" placeholder="البريد الإلكتروني (اختياري)" />
-        <select id="providerCategoryReg" required>
-          <option value="">اختر الفئة</option>
-          <option value="electricity">كهرباء</option>
-          <option value="plumbing">سباكة</option>
-          <option value="mechanics">ميكانيكا</option>
-          <option value="carpentry">نجارة</option>
-          <option value="crafts">حرف يدوية</option>
-          <option value="cleaning">تنظيف</option>
-          <option value="painting">دهان</option>
-          <option value="gardening">بستنة</option>
-          <option value="other">أخرى</option>
-        </select>
-        <input id="providerLocation" placeholder="المنطقة (مثال: الرياض)" required />
-        <input id="providerExperience" type="number" placeholder="سنوات الخبرة" min="0" />
-        <textarea id="providerDescription" placeholder="وصف مختصر عن الخدمات" required></textarea>
-        <input id="providerWhats" placeholder="رقم واتساب (مثال: 9665xxxxxxxx)" />
-        <button type="submit" class="btn btn-register-full">تسجيل</button>
-      </form>
-    </section>
-
-    <!-- Admin login / panel -->
-    <section id="adminLoginSection" class="panel" style="display:none;">
-      <h2>تسجيل دخول المدير</h2>
-      <form id="adminLoginForm">
-        <input id="adminEmail" placeholder="البريد الإلكتروني" required />
-        <input id="adminPassword" type="password" placeholder="كلمة المرور" required />
-        <button type="submit" class="btn btn-primary">دخول</button>
-      </form>
-    </section>
-
-    <section id="adminPanel" class="panel" style="display:none;">
-      <h2>لوحة الإدارة</h2>
-      <div id="adminStats"></div>
-      <div id="allProvidersAdmin"></div>
-      <button class="btn btn-danger" onclick="signOutAdmin()">تسجيل خروج</button>
-    </section>
-
-    <!-- Contact page -->
-    <section id="contactSection" class="panel" style="display:none;">
-      <h2>اتصل بنا</h2>
-      <p>للدعم أو الشكاوى: <a href="mailto:admin@yourdomain.com">admin@yourdomain.com</a></p>
-    </section>
-  </main>
-
-  <!-- contact modal -->
-  <div id="contactModal" class="modal" style="display:none;">
-    <div class="modal-content">
-      <button class="close" onclick="closeContactModal()">×</button>
-      <div id="contactInfo"></div>
+    <!-- نموذج البحث المتقدم -->
+    <div id="searchModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('searchModal')">&times;</span>
+            <h2>البحث المتقدم</h2>
+            
+            <form id="advancedSearchForm">
+                <div class="form-group">
+                    <label for="searchService">نوع الخدمة:</label>
+                    <select id="searchService" name="service">
+                        <option value="">جميع الخدمات</option>
+                        <option value="بناء">خدمات البناء</option>
+                        <option value="كهرباء">خدمات الكهرباء</option>
+                        <option value="سباكة">خدمات السباكة</option>
+                        <option value="ميكانيكا">خدمات الميكانيكا</option>
+                        <option value="نجارة">خدمات النجارة</option>
+                        <option value="حرف">الأعمال الحرفية</option>
+                        <option value="أخرى">أخرى</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="searchCity">المدينة:</label>
+                    <input type="text" id="searchCity" name="city" placeholder="اكتب اسم المدينة">
+                </div>
+                
+                <div class="form-group">
+                    <label for="searchKeyword">كلمة مفتاحية:</label>
+                    <input type="text" id="searchKeyword" name="keyword" placeholder="ابحث بكلمة مفتاحية">
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-search"></i> بحث
+                </button>
+            </form>
+        </div>
     </div>
-  </div>
 
-  <footer class="site-footer">
-    © 2025 منصة خدمة — جميع الحقوق محفوظة
-  </footer>
+    <!-- نموذج خدمة أخرى -->
+    <div id="otherServiceModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('otherServiceModal')">&times;</span>
+            <h2>البحث عن خدمة أخرى</h2>
+            
+            <form id="otherServiceSearchForm">
+                <div class="form-group">
+                    <label for="customService">نوع الخدمة المطلوبة:</label>
+                    <input type="text" id="customService" name="customService" placeholder="اكتب نوع الخدمة التي تبحث عنها" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="customCity">المدينة:</label>
+                    <input type="text" id="customCity" name="city" placeholder="اكتب اسم المدينة">
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-search"></i> بحث
+                </button>
+            </form>
+        </div>
+    </div>
 
-  <!-- firebase & app scripts -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-
-  <!-- main application -->
-  <script src="app.js"></script>
-
-  <!-- register service worker -->
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js').then(() => console.log('SW registered')).catch(e=>console.warn('SW failed', e));
-    }
-  </script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    
+    <!-- JavaScript -->
+    <script src="js/app.js"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(function(registration) {
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(function(err) {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+    </script>
 </body>
-</html>
+<html/>
