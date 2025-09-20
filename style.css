@@ -1,3 +1,7 @@
+/* ================================================================ */
+/* ==               FINAL CORRECTED STYLE.CSS                  == */
+/* ================================================================ */
+
 /* --- Global Styles & Variables --- */
 :root {
     --primary-color: #4CAF50;
@@ -30,7 +34,7 @@ img { max-width: 100%; }
 .navbar .nav-menu li { margin: 0 15px; }
 .navbar .nav-menu a { color: var(--dark-color); font-weight: 500; transition: color 0.3s ease; }
 .navbar .nav-menu a:hover { color: var(--primary-color); }
-.navbar .nav-buttons { display: flex; align-items: center; }
+.navbar .nav-buttons { display: flex; align-items: center; } /* This ensures it's visible by default */
 .navbar .nav-buttons .btn { margin-left: 10px; }
 .navbar .menu-toggle { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; }
 
@@ -91,21 +95,21 @@ img { max-width: 100%; }
 #registerForm button[type="submit"] { width: 100%; margin-top: 15px; }
 
 /* --- Responsive Design --- */
-@media (max-width: 820px) { /* Increased breakpoint for better tablet support */
+@media (max-width: 850px) {
     .navbar .nav-menu {
-        display: none; /* Hide menu by default */
+        display: none;
         flex-direction: column;
         width: 100%;
         text-align: center;
         background-color: #fff;
         position: absolute;
-        top: 65px; /* Adjust based on navbar height */
+        top: 65px;
         left: 0;
         box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         padding: 1rem 0;
     }
     .navbar .nav-menu.active {
-        display: flex; /* Show menu when active */
+        display: flex;
     }
     .navbar .nav-menu li {
         margin: 10px 0;
