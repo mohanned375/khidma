@@ -705,4 +705,6 @@ if (!localStorage.getItem('providers')) {
     localStorage.setItem('providers', JSON.stringify(sampleProviders));
     providers = sampleProviders;
 }
-console.log('services platform App;initialized successfully')
+console.log('services platform App;initialized successfully');
+}
+
