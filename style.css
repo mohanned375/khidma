@@ -5,23 +5,22 @@ body { font-family: var(--font-family); line-height: 1.6; color: var(--dark-colo
 .container { max-width: 1100px; margin: auto; padding: 0 20px; }
 a { text-decoration: none; color: var(--primary-color); }
 ul { list-style: none; }
-.btn { display: inline-block; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem; transition: background-color 0.3s ease; text-align: center; }
+.btn { display: inline-block; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem; transition: background-color 0.3s ease; text-align: center; }
 .btn-primary { background-color: var(--primary-color); color: #fff; }
 .btn-secondary { background-color: var(--secondary-color); color: var(--dark-color); }
 
 /* --- Navbar --- */
-.navbar { background-color: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); padding: 1rem 0; position: sticky; top: 0; z-index: 1000; }
+.navbar { background-color: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); padding: 0.5rem 0; position: sticky; top: 0; z-index: 1000; }
 .navbar .nav-content { display: flex; justify-content: space-between; align-items: center; }
-.navbar .logo { font-size: 1.5rem; font-weight: bold; display: flex; align-items: center; }
-.navbar .logo img { width: 40px; height: 40px; margin-left: 10px; }
+.navbar .logo { font-size: 1.2rem; font-weight: bold; display: flex; align-items: center; white-space: nowrap; }
+.navbar .logo img { width: 35px; height: 35px; margin-left: 8px; }
 .navbar .menu-toggle { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; }
 
 /* Desktop Navbar Styles */
 .navbar .nav-menu { display: flex; align-items: center; }
 .navbar .nav-menu li { margin: 0 15px; }
 .navbar .nav-menu a { color: var(--dark-color); font-weight: 500; }
-.navbar .nav-buttons { display: flex; align-items: center; }
-.navbar .nav-buttons .btn { margin-left: 10px; }
+.navbar .nav-buttons { display: flex; align-items: center; gap: 5px; }
 
 /* --- Hero Section & Others --- */
 .hero { text-align: center; padding: 100px 0; color: #fff; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://via.placeholder.com/1500x800') no-repeat center center/cover; }
@@ -41,37 +40,38 @@ ul { list-style: none; }
 .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
 #registerForm button[type="submit"] { width: 100%; margin-top: 15px; }
 
-/* --- Responsive Design (Mobile First) --- */
-@media (max-width: 900px) {
-    .navbar .menu-toggle {
-        display: block; /* Show hamburger icon */
-    }
-    .navbar .nav-menu, .navbar .nav-buttons {
-        display: none; /* Hide menu and buttons by default */
-        flex-direction: column;
-        width: 100%;
-        background-color: #fff;
-        position: absolute;
-        top: 65px;
-        left: 0;
-        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-        padding: 1rem 0;
-    }
+/* 
+================================================================
+==     NEW RESPONSIVE DESIGN TO MATCH YOUR PICTURE          ==
+================================================================
+*/
+@media (max-width: 768px) {
+    /* Hide the main menu links, but keep the buttons */
     .navbar .nav-menu {
-        top: 65px; /* Menu appears first */
+        display: none;
     }
-    .navbar .nav-buttons {
-        top: 250px; /* Buttons appear below the menu, adjust as needed */
-        padding-top: 0;
+
+    /* Show the hamburger icon to open the menu */
+    .navbar .menu-toggle {
+        display: block;
+        order: 3; /* Change order to place it at the end */
     }
-    .navbar .nav-menu.active, .navbar .nav-buttons.active {
-        display: flex; /* Show them when active */
-    }
-    .navbar .nav-menu li {
-        margin: 10px 0;
-    }
+
+    /* Adjust button styles for smaller screens */
     .navbar .nav-buttons .btn {
-        margin: 5px 20px; /* Adjust margin for vertical layout */
-        width: calc(100% - 40px);
+        padding: 8px 10px;
+        font-size: 0.8rem; /* Make font smaller */
+    }
+
+    /* Make the text disappear, leaving only the icon */
+    .navbar .nav-buttons .btn span {
+        display: none;
+    }
+    .navbar .nav-buttons .btn i {
+        margin: 0;
+    }
+    
+    .container {
+        padding: 0 10px;
     }
 }
