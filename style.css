@@ -22,54 +22,5 @@ ul { list-style: none; }
 .navbar .nav-menu a { color: var(--dark-color); font-weight: 500; }
 .navbar .nav-buttons { display: flex; align-items: center; gap: 10px; }
 
-/* --- Modals --- */
-.modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
-.modal-content { background-color: #fefefe; margin: 5% auto; padding: 20px; border-radius: 5px; width: 90%; max-width: 500px; max-height: 85vh; overflow-y: auto; }
-.close { color: #aaa; float: left; font-size: 28px; font-weight: bold; cursor: pointer; }
-.form-group { margin-bottom: 15px; }
-#registerForm button[type="submit"] { width: 100%; margin-top: 15px; }
-
-/* --- Responsive Design --- */
-@media (max-width: 992px) {
-    /* 1. Hide the main menu links */
-    .navbar .nav-menu {
-        display: none;
-        flex-direction: column;
-        position: absolute;
-        top: 68px;
-        left: 0;
-        width: 100%;
-        background-color: white;
-        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-        padding: 1rem 0;
-    }
-    .navbar .nav-menu.active {
-        display: flex; /* Show menu when hamburger is clicked */
-    }
-    .navbar .nav-menu li {
-        margin: 10px 0;
-    }
-
-    /* 2. Show the hamburger icon */
-    .navbar .menu-toggle {
-        display: block;
-        order: 3; /* Move it to the end */
-    }
-    .navbar .nav-buttons {
-        order: 2; /* Keep buttons in the middle */
-    }
-    .navbar .logo {
-        order: 1; /* Keep logo at the start */
-    }
-
-    /* 3. Shrink buttons and hide their text */
-    .navbar .nav-buttons .btn {
-        padding: 8px 12px;
-    }
-    .navbar .nav-buttons .btn span {
-        display: none;
-    }
-    .navbar .nav-buttons .btn i {
-        margin: 0;
-    }
-}
+/* --- Hero & Other Sections --- */
+.hero { text-align:
