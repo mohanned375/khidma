@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>منصة خدمة - ربط العملاء بمقدمي الخدمات</title>
-    <meta name="description" content="منصة لربط العملاء بمقدمي الخدمات في مختلف المجالات.">
+    <meta name="description" content="منصة لربط العملاء بمقدمي الخدمات في مختلف المجالات مثل البناء والكهرباء والسباكة والميكانيكا والنجارة">
     <meta name="keywords" content="خدمات, بناء, كهرباء, سباكة, ميكانيكا, نجارة, حرف">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#4CAF50">
@@ -46,12 +46,17 @@
         </div>
     </nav>
 
-    <!-- باقي محتوى الصفحة يبقى كما هو -->
     <!-- القسم الرئيسي -->
     <section class="hero" id="home">
         <div class="container">
             <h1>مرحباً بك في منصة خدمة</h1>
             <p>نربط بين العملاء ومقدمي الخدمات في جميع المجالات</p>
+            <div class="search-container">
+                <input type="text" class="search-box" placeholder="ابحث عن الخدمة التي تحتاجها..." id="mainSearch">
+                <button class="search-btn" onclick="performSearch()">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
         </div>
     </section>
 
@@ -60,7 +65,12 @@
         <div class="container">
             <h2 class="section-title">خدماتنا</h2>
             <div class="services-grid">
-                <!-- بطاقات الخدمات هنا -->
+                <div class="service-card" onclick="searchByCategory('بناء')"><img src="images/XPbtpaXVQouI.jpg" alt="خدمات البناء"><h3>خدمات البناء</h3><p>مقاولون ومهندسون متخصصون</p></div>
+                <div class="service-card" onclick="searchByCategory('كهرباء')"><img src="images/S8x8qpDspmIl.jpg" alt="خدمات الكهرباء"><h3>خدمات الكهرباء</h3><p>فنيون كهربائيون محترفون</p></div>
+                <div class="service-card" onclick="searchByCategory('سباكة')"><img src="images/hOAzW15l16XX.jpg" alt="خدمات السباكة"><h3>خدمات السباكة</h3><p>سباكون مهرة لحل المشاكل</p></div>
+                <div class="service-card" onclick="searchByCategory('ميكانيكا')"><img src="images/5oOyfntakBNl.jpg" alt="خدمات الميكانيكا"><h3>خدمات الميكانيكا</h3><p>صيانة وإصلاح السيارات</p></div>
+                <div class="service-card" onclick="searchByCategory('نجارة')"><img src="images/uURBjAmLHdwE.jpg" alt="خدمات النجارة"><h3>خدمات النجارة</h3><p>صناعة وإصلاح الأثاث</p></div>
+                <div class="service-card" onclick="openOtherServiceModal()"><img src="images/oqmoWLbymFcs.jpg" alt="خدمات أخرى"><h3>خدمات أخرى</h3><p>ابحث عن أي خدمة أخرى</p></div>
             </div>
         </div>
     </section>
@@ -70,22 +80,40 @@
         <div class="container">
             <h2 class="section-title">لماذا تختار منصة خدمة؟</h2>
             <div class="features-grid">
-                <!-- عناصر المميزات هنا -->
+                <div class="feature-item"><div class="feature-icon"><i class="fas fa-users"></i></div><h3>سهولة التواصل</h3><p>تواصل مباشر مع مقدمي الخدمات</p></div>
+                <div class="feature-item"><div class="feature-icon"><i class="fas fa-shield-alt"></i></div><h3>موثوقية عالية</h3><p>مقدمو خدمات مسجلون ومعتمدون</p></div>
+                <div class="feature-item"><div class="feature-icon"><i class="fas fa-clock"></i></div><h3>توفير الوقت</h3><p>اعثر على الخدمة في دقائق</p></div>
+                <div class="feature-item"><div class="feature-icon"><i class="fas fa-money-bill-wave"></i></div><h3>مجاني تماماً</h3><p>استخدام المنصة مجاني للجميع</p></div>
             </div>
+        </div>
+    </section>
+
+    <!-- قسم نتائج البحث -->
+    <section class="search-results" id="searchResults" style="display: none;">
+        <div class="container">
+            <h2 class="section-title">نتائج البحث</h2>
+            <div class="loading" id="loading"></div>
+            <div class="providers-list" id="providersList"></div>
         </div>
     </section>
 
     <!-- التذييل -->
     <footer class="footer" id="contact">
         <div class="container">
-            <!-- محتوى التذييل هنا -->
+            <div class="footer-content">
+                <div class="footer-section"><h3>منصة خدمة</h3><p>نربط بين العملاء ومقدمي الخدمات لتسهيل الحصول على الخدمات.</p></div>
+                <div class="footer-section"><h3>روابط سريعة</h3><ul><li><a href="#home">الرئيسية</a></li><li><a href="#services">الخدمات</a></li><li><a href="#about">حولنا</a></li></ul></div>
+                <div class="footer-section"><h3>تواصل معنا</h3><ul><li><i class="fas fa-envelope"></i> mohanned20013@gmail.com</li><li><i class="fas fa-phone"></i> 0965640434</li></ul></div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2025 منصة خدمة. جميع الحقوق محفوظة.</p></div>
         </div>
     </footer>
 
     <!-- النماذج المنبثقة (Modals) -->
-    <div id="registerModal" class="modal"><!-- محتوى نموذج التسجيل --></div>
-    <div id="searchModal" class="modal"><!-- محتوى نموذج البحث --></div>
-    
+    <div id="registerModal" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('registerModal')">&times;</span><h2>تسجيل مقدم خدمة</h2><form id="registerForm"><div class="form-group"><label for="providerName">الاسم:</label><input type="text" id="providerName" required></div><div class="form-group"><label for="providerPhone">الهاتف:</label><input type="tel" id="providerPhone" required></div><div class="form-group"><label for="providerService">الخدمة:</label><select id="providerService" required><option value="">اختر الخدمة</option><option value="بناء">بناء</option><option value="كهرباء">كهرباء</option><option value="سباكة">سباكة</option><option value="ميكانيكا">ميكانيكا</option><option value="نجارة">نجارة</option><option value="أخرى">أخرى</option></select></div><div class="form-group" id="otherServiceGroup" style="display: none;"><label for="otherService">حدد الخدمة:</label><input type="text" id="otherService"></div><div class="form-group"><label for="providerCity">المدينة:</label><input type="text" id="providerCity" required></div><button type="submit" class="btn btn-primary">تسجيل</button></form></div></div>
+    <div id="searchModal" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('searchModal')">&times;</span><h2>البحث المتقدم</h2><form id="advancedSearchForm"><div class="form-group"><label for="searchService">الخدمة:</label><select id="searchService"><option value="">كل الخدمات</option><option value="بناء">بناء</option><option value="كهرباء">كهرباء</option><option value="سباكة">سباكة</option><option value="ميكانيكا">ميكانيكا</option><option value="نجارة">نجارة</option></select></div><div class="form-group"><label for="searchCity">المدينة:</label><input type="text" id="searchCity"></div><button type="submit" class="btn btn-primary">بحث</button></form></div></div>
+    <div id="otherServiceModal" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('otherServiceModal')">&times;</span><h2>خدمة أخرى</h2><form id="otherServiceSearchForm"><div class="form-group"><label for="customService">نوع الخدمة:</label><input type="text" id="customService" required></div><button type="submit" class="btn btn-primary">بحث</button></form></div></div>
+
     <!-- ملفات JavaScript -->
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
