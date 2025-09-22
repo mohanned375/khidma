@@ -50,6 +50,7 @@ img { max-width: 100%; }
 .provider-card { background: #fff; border: 1px solid #ddd; border-radius: 5px; padding: 20px; }
 
 /* --- Footer --- */
+.justify-content: center;
 .footer { background-color: var(--dark-color); color: #fff; padding: 40px 0 20px; }
 .footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
 .footer-section { flex: 1; min-width: 250px; }
@@ -108,3 +109,4 @@ img { max-width: 100%; }
         margin-left: 0;
     }
 }
+
