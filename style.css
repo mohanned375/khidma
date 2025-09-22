@@ -53,8 +53,8 @@ img { max-width: 100%; }
 .display: flex;
 .justify-content: center;
 .footer { background-color: var(--dark-color); color: #fff; padding: 40px 0 20px; }
-.footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
-.footer-section { flex: 1; min-width: 250px; }
+.footer-content { display: flex; justify-content: center; text-align: center;flex-wrap: wrap; gap: 20px; }
+.footer-section { display: flex;text-align:center;min-width: 250px; }
 .footer-bottom { display: flex;justify-content: center;text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #555; }
 
 /* --- Modals --- */
@@ -110,6 +110,7 @@ img { max-width: 100%; }
         margin-left: 0;
     }
 }
+
 
 
 
