@@ -34,10 +34,10 @@ img { max-width: 100%; }
 .services { padding: 60px 0; background-color: var(--light-color); }
 .section-title { text-align: center; font-size: 2rem; margin-bottom: 40px; }
 .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-.service-card { background: #fff; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; cursor: pointer; overflow: hidden; }
+.service-card { display:flex;background-color:#fff; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; cursor: pointer; overflow: hidden; }
 .service-card img { width: 100%; height: 200px; object-fit: cover; }
-.service-card h3 { margin: 15px 0; }
-.service-card p { padding: 0 15px 20px; color: #666; }
+.service-card h3 { backgrond-color:var(--primary-color); color:#fff; padding:15px 0; }
+.service-card p { background-color:#f0f0f0;padding:15px; color: ##333; }
 
 /* --- Features Section --- */
 .features { padding: 60px 0; }
@@ -114,6 +114,7 @@ img { max-width: 100%; }
         margin-left: 0;
     }
 }
+
 
 
 
