@@ -134,18 +134,12 @@
     <div id="otherServiceModal" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('otherServiceModal')">&times;</span><h2>خدمة أخرى</h2><form id="otherServiceSearchForm"><div class="form-group"><label for="customService">نوع الخدمة:</label><input type="text" id="customService" required></div><button type="submit" class="btn btn-primary">بحث</button></form></div></div>
 
     <!-- ملفات JavaScript -->
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
-    <script src="script.js"></script>
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js').then(reg => console.log('Service worker registered.')).catch(err => console.log('Service worker registration failed: ', err));
-            });
-        }
-    </script>
+    <!-- Firebase SDK (Latest Version 8 for Compat Mode) -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 </body>
 </html>
+
 
 
 
