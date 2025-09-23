@@ -144,12 +144,12 @@ img { max-width: 100%; }
 
     .navbar .nav-menu li {
         margin: 0;
-        width: 100%;
+        width: 50%;
     }
 
     .navbar .nav-menu li a {
         display: block;
-        padding: 12px 20px;
+        padding: 12px 10px;
         transition: background-color 0.2s ease;
     }
 
@@ -182,6 +182,7 @@ img { max-width: 100%; }
         margin-left: 0;
     }
 }
+
 
 
 
