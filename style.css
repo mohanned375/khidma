@@ -124,49 +124,64 @@ img { max-width: 100%; }
 
 /* --- Responsive Design --- */
 @media (max-width: 992px) {
-    /* 1. Hide the main menu links */
     .navbar .nav-menu {
         display: none;
         flex-direction: column;
         position: absolute;
         top: 68px;
-        left: 0;
-        width: 100%;
+        left: 10px;
+        width: 250px;
         background-color: white;
-        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        border-radius: 8px;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
         padding: 1rem 0;
-    }
-    .navbar .nav-menu.active {
-        display: flex; /* Show menu when hamburger is clicked */
-    }
-    .navbar .nav-menu li {
-        margin: 10px 0;
+        text-align: right;
     }
 
-    /* 2. Show the hamburger icon */
+    .navbar .nav-menu.active {
+        display: flex;
+    }
+
+    .navbar .nav-menu li {
+        margin: 0;
+        width: 100%;
+    }
+
+    .navbar .nav-menu li a {
+        display: block;
+        padding: 12px 20px;
+        transition: background-color 0.2s ease;
+    }
+
+    .navbar .nav-menu li a:hover {
+        background-color: #f0f0f0;
+    }
+
     .navbar .menu-toggle {
         display: block;
-        order: 3; /* Move it to the end */
-    }
-    .navbar .nav-buttons {
-        order: 2; /* Keep buttons in the middle */
-    }
-    .navbar .logo {
-        order: 1; /* Keep logo at the start */
+        order: 3;
     }
 
-    /* 3. Shrink buttons and hide their text */
+    .navbar .nav-buttons {
+        order: 2;
+    }
+
+    .navbar .logo {
+        order: 1;
+    }
+
     .navbar .nav-buttons .btn {
         padding: 8px 12px;
     }
+
     .navbar .nav-buttons .btn span {
         display: none;
     }
+
     .navbar .nav-buttons .btn i {
         margin-left: 0;
     }
 }
-
 
 
 
