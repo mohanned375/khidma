@@ -77,8 +77,7 @@ img { max-width: 100%; }
     padding: 12px 10px;
     margin: 0;
     font-size: 1.1rem;
-    text-align: center;
-}
+    justify-content: center;}
 
 .service-card p {
     background-color: #f0f0f0;
@@ -87,7 +86,7 @@ img { max-width: 100%; }
     margin: 0;
     flex-grow: 1;
     font-size: 0.9rem;
-    text-align: center;
+    justify-content: center;
 }
 
 /* --- Features Section --- */
@@ -165,6 +164,7 @@ img { max-width: 100%; }
         margin-left: 0;
     }
 }
+
 
 
 
