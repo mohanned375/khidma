@@ -59,6 +59,7 @@ img { max-width: 100%; }
     display: flex;
     flex-direction: column;
     transition: transform 0.3s ease;
+    align-items: center;
 }
 
 .service-card:hover {
@@ -165,6 +166,7 @@ img { max-width: 100%; }
         margin-left: 0;
     }
 }
+
 
 
 
