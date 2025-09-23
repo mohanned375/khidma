@@ -51,8 +51,14 @@ img { max-width: 100%; }
 
 /* --- Footer --- */
 .footer { background-color: var(--dark-color); color: #fff; padding: 40px 0 20px; }
-.footer-content { padding:18px;text-align:center;margin-top:auto;color:#666;font-size:0.9rem}
-.footer-section { display: flex;justify-content: center;text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #555;min-width:250px; }
+.footer-content { display: flex;justify-content: space-between;flex-wrap: wrap;gap: 30px;}
+.footer-section { flex: 1;min-width: 250px;text-align: center; }
+.footer-section h3 { color: #fff; }
+.footer-section p { color: #ccc; }
+.footer-section ul { padding: 0;}
+.footer-section ul li { margin-bottom: 10px; }
+.footer-section ul li a { color: #f4f4f4;}
+.footer-section ul li a:hover {color: var(--secondary-color);}
 .footer-bottom { display: flex;justify-content: center;text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #555; }
 
 /* --- Modals --- */
@@ -108,6 +114,7 @@ img { max-width: 100%; }
         margin-left: 0;
     }
 }
+
 
 
 
