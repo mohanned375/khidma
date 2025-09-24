@@ -139,46 +139,22 @@
     <!-- ... (الفوتر، النماذج المنبثقة، إلخ) ... -->
 
 <!-- سكربتات Firebase -->
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+<!-- ====================================================== -->
+<!--  هذا هو الجزء الذي يجب تصحيحه في نهاية index.html  -->
+<!-- ====================================================== -->
 
-<!-- كود الفحص -->
-<script>
-window.addEventListener('load', function(){
-  try {
-    if (typeof firebase === 'undefined') {
-      alert('Debug: firebase غير موجود (لم تُحمّل مكتبة Firebase)');
-      return;
-    } else {
-      alert('Debug: firebase محمّلة. SDK version: ' + (firebase.SDK_VERSION || 'unknown'));
-    }
-
-    if (typeof firebase.database === 'function') {
-      alert('Debug: Realtime Database متاح (firebase.database موجود)');
-    } else {
-      alert('Debug: Realtime Database غير متاح (firebase.database غير موجود)');
-    }
-
-    if (typeof firebase.firestore === 'function') {
-      alert('Debug: Firestore متاح (firebase.firestore موجود)');
-    } else {
-      alert('Debug: Firestore غير متاح (firebase.firestore غير موجود)');
-    }
-  } catch (err) {
-    alert('Debug: خطأ أثناء الفحص: ' + err.message);
-    console.error(err);
-  }
-});
-</script>
-
-
+<!-- 1. استدعاء مكتبة Firebase الأساسية (app) أولاً -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     
-    <!-- 2. استدعاء ملف script.js الخاص بك ثانيًا -->
-    <script src="script.js"></script>
+<!-- 2. استدعاء مكتبة Firestore ثانيًا -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    
+<!-- 3. استدعاء ملف script.js الخاص بك أخيرًا -->
+<script src="script.js"></script>
 
 </body>
 </html>
+
 
 
 
