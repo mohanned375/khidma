@@ -125,7 +125,7 @@ function handleSubmit(db) {
         description: document.getElementById('providerDescription').value,
         experience: document.getElementById('providerExperience').value,
         approved: false,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        timestamp: firebase.firestore.Timestamp.now()
     };
 
     db.collection('providers').add(providerData)
