@@ -11,6 +11,7 @@ function toggleMenu() {
 }
 
 function openModal(modalId) {
+   alert ("تم الاستدعاء بنجاح");
     const modal = document.getElementById(modalId);
     if (modal) modal.style.display = 'flex';
 }
