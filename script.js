@@ -52,17 +52,28 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // --- تهيئة Firebase ---
-    // سنضعها في try...catch لمنعها من إيقاف الكود
-    let db; 
-    try {
-  const firebaseConfig = {
-  apiKey: "AIzaSyBSujjNja7qC_Lamp8DTH-T_O2ia2ZzU0E", // استبدل هذا
-  authDomain: "khidma-5cbbc.firebaseapp.com", // استبدل هذا
-  projectId: "khidma-5cbbc", // استبدل هذا
-  storageBucket: "khidma-5cbbc.firebasestorage.app", // استبدل هذا
-  messagingSenderId: "992721988153", // استبدل هذا
-  appId: "1:992721988153:web:77599e16ea175be6a2bbe8" // استبدل هذا
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBSujjNja7qC_Lamp8DTH-T_O2ia2ZzU0E",
+  authDomain: "khidma-5cbbc.firebaseapp.com",
+  databaseURL: "https://khidma-5cbbc-default-rtdb.firebaseio.com",
+  projectId: "khidma-5cbbc",
+  storageBucket: "khidma-5cbbc.firebasestorage.app",
+  messagingSenderId: "992721988153",
+  appId: "1:992721988153:web:77599e16ea175be6a2bbe8",
+  measurementId: "G-PBZ7HSXRJ4"
 };
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
         firebase.initializeApp(firebaseConfig);
         db = firebase.firestore();
         console.log("Firebase Initialized Successfully.");
