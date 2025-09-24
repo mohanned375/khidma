@@ -11,7 +11,6 @@ function toggleMenu() {
 }
 
 function openModal(modalId) {
-   alert ("تم الاستدعاء بنجاح");
     const modal = document.getElementById(modalId);
     if (modal) modal.style.display = 'flex';
 }
@@ -19,6 +18,21 @@ function openModal(modalId) {
 function closeModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) modal.style.display = 'none';
+}
+// تأكد من وجود هذه الدوال في ملفك
+function openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) modal.style.display = 'flex';
+}
+
+function openRegisterModal() {
+    alert("تم استدعاء دالة openRegisterModal بنجاح!"); // <-- أضف هذا السطر
+    openModal('registerModal');
+}
+
+function openSearchModal() {
+    alert("تم استدعاء دالة openSearchModal بنجاح!"); // <-- أضف هذا السطر
+    openModal('searchModal');
 }
 
 
