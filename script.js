@@ -38,6 +38,18 @@ function openSearchModal() {
 
 // --- 2. الكود الرئيسي الذي يعمل بعد تحميل الصفحة ---
 document.addEventListener('DOMContentLoaded', function() {
+        // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+    // أضف هذا الجزء للتحقق من وجود المكتبات
+    if (typeof firebase === 'undefined' || typeof firebase.initializeApp !== 'function') {
+        alert("خطأ فادح: مكتبة Firebase الأساسية (app) غير محملة! تحقق من ملف index.html.");
+        return; // أوقف كل شيء إذا كانت المكتبة الأساسية غير موجودة
+    }
+    if (typeof firebase.firestore !== 'function') {
+        alert("خطأ فادح: مكتبة Firestore غير محملة! تحقق من ملف index.html.");
+        return; // أوقف كل شيء إذا كانت مكتبة Firestore غير موجودة
+    }
+    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 
     // --- تهيئة Firebase ---
     // سنضعها في try...catch لمنعها من إيقاف الكود
@@ -52,23 +64,6 @@ document.addEventListener('DOMContentLoaded', function() {
   appId: "1:992721988153:web:77599e16ea175be6a2bbe8" // استبدل هذا
 };
         firebase.initializeApp(firebaseConfig);
-try {
-    // بعد التهيئة
-const db = firebase.firestore();
-
-// اختبار الكتابة
-db.collection("testCollection").add({
-    test: "hello",
-    time: new Date()
-})
-.then(() => {
-    alert("تمت كتابة testCollection بنجاح 🎉");
-})
-.catch((err) => {
-    alert("خطأ في الكتابة: " + err.message);
-    console.error(err);
-});
-        
         db = firebase.firestore();
         console.log("Firebase Initialized Successfully.");
     } catch (error) {
