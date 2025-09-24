@@ -53,18 +53,21 @@ document.addEventListener('DOMContentLoaded', function() {
 };
         firebase.initializeApp(firebaseConfig);
 try {
-    const testData = { test: "hello", time: new Date() };
-    db.collection("testCollection").add(testData)
-      .then(() => {
-        alert("تمت كتابة testCollection بنجاح 🎉");
-      })
-      .catch((err) => {
-        alert("خطأ في الكتابة: " + err.message);
-        console.error(err);
-      });
-} catch (err) {
-    alert("فشل إنشاء testCollection: " + err.message);
-              }
+    // بعد التهيئة
+const db = firebase.firestore();
+
+// اختبار الكتابة
+db.collection("testCollection").add({
+    test: "hello",
+    time: new Date()
+})
+.then(() => {
+    alert("تمت كتابة testCollection بنجاح 🎉");
+})
+.catch((err) => {
+    alert("خطأ في الكتابة: " + err.message);
+    console.error(err);
+});
         
         db = firebase.firestore();
         console.log("Firebase Initialized Successfully.");
