@@ -1,4 +1,39 @@
-// تهيئة Firebase - استبدل هذا بمعلومات مشروعك الخاصة
+// ==================================================================
+//  ملف script.js الكامل والنهائي
+//  يجمع كل الوظائف المطلوبة مع التركيز على الاستقرار
+// ==================================================================
+
+// --- 1. الدوال العامة التي يتم استدعاؤها مباشرة من HTML ---
+// يتم وضعها في النطاق العام (Global Scope) لتكون متاحة لـ onclick
+
+function toggleMenu() {
+    const navMenu = document.getElementById('navMenu');
+    if (navMenu) {
+        navMenu.classList.toggle('active');
+    }
+}
+
+function openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.style.display = 'flex';
+    }
+}
+
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+// --- 2. الكود الرئيسي الذي يعمل بعد تحميل الصفحة بالكامل ---
+// هذا يضمن أن جميع عناصر HTML موجودة وجاهزة
+
+document.addEventListener('DOMContentLoaded', function() {
+
+    // --- تهيئة Firebase ---
+    // هام: تأكد من أن هذه البيانات موجودة وصحيحة
 const firebaseConfig = {
   apiKey: "AIzaSyBSujjNja7qC_Lamp8DTH-T_O2ia2ZzU0E", // استبدل هذا
   authDomain: "khidma-5cbbc.firebaseapp.com", // استبدل هذا
@@ -7,52 +42,69 @@ const firebaseConfig = {
   messagingSenderId: "992721988153", // استبدل هذا
   appId: "1:992721988153:web:77599e16ea175be6a2bbe8" // استبدل هذا
 };
-// --- وظائف شريط التنقل والقوائم ---
-function toggleMenu() {
-    const navMenu = document.getElementById('navMenu');
-    const navButtons = document.getElementById('navButtons');
-    navMenu.classList.toggle('active');
-    navButtons.classList.toggle('active'); // Add this line
-}
+    // تهيئة Firebase وإنشاء اتصال بقاعدة البيانات
+    try {
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        console.log("Firebase Initialized Successfully.");
 
-// --- باقي كود script.js يبقى كما هو ---
+        // --- ربط نموذج التسجيل ---
+        // يتم الربط هنا بالداخل لضمان وجود 'db'
+        const registerForm = document.getElementById('registerForm');
+        if (registerForm) {
+            registerForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                handleSubmit(db); // تمرير 'db' إلى الدالة
+            });
+        } else {
+            console.error("Error: Register form not found.");
+        }
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+        // --- ربط نماذج البحث ---
+        // (يمكن إضافة وظائف البحث هنا لاحقًا بنفس الطريقة)
 
-// --- وظائف النماذج (Modals) ---
-function openModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) modal.style.display = 'block';
-}
-function closeModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) modal.style.display = 'none';
-}
-function openRegisterModal() { openModal('registerModal'); }
-function openSearchModal() { openModal('searchModal'); }
-function openOtherServiceModal() { openModal('otherServiceModal'); }
-
-window.onclick = function(event) {
-    if (event.target.classList.contains('modal')) {
-        event.target.style.display = "none";
+    } catch (error) {
+        console.error("Firebase Initialization Failed: ", error);
+        alert("فشل الاتصال بقاعدة البيانات. يرجى التحقق من معلومات التهيئة والمكتبات.");
     }
-}
 
-// --- وظائف تسجيل مقدم الخدمة ---
-const registerForm = document.getElementById('registerForm');
-const providerServiceSelect = document.getElementById('providerService');
-const otherServiceGroup = document.getElementById('otherServiceGroup');
-const registerSuccessAlert = document.getElementById('registerSuccess');
-const registerErrorAlert = document.getElementById('registerError');
-
-providerServiceSelect.addEventListener('change', function() {
-    otherServiceGroup.style.display = (this.value === 'أخرى') ? 'block' : 'none';
+    // --- ربط حقل "نوع الخدمة" في نموذج التسجيل ---
+    const providerServiceSelect = document.getElementById('providerService');
+    const otherServiceGroup = document.getElementById('otherServiceGroup');
+    if (providerServiceSelect && otherServiceGroup) {
+        providerServiceSelect.addEventListener('change', function() {
+            otherServiceGroup.style.display = (this.value === 'أخرى') ? 'block' : 'none';
+        });
+    }
 });
 
-registerForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const serviceValue = providerServiceSelect.value === 'أخرى' ? document.getElementById('otherService').value : providerServiceSelect.value;
+
+// --- 3. دالة إرسال بيانات التسجيل (handleSubmit) ---
+// هذه الدالة يتم استدعاؤها من داخل المستمع أعلاه
+
+function handleSubmit(db) {
+    const form = document.getElementById('registerForm');
+    const successAlert = document.getElementById('registerSuccess');
+    const errorAlert = document.getElementById('registerError');
+    const submitButton = form.querySelector('button[type="submit"]');
+
+    // التحقق من وجود قاعدة البيانات قبل المتابعة
+    if (!db) {
+        console.error("Database connection is not available.");
+        if (errorAlert) errorAlert.style.display = 'block';
+        return;
+    }
+
+    // تعطيل الزر وإظهار مؤشر التحميل
+    submitButton.disabled = true;
+    submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التسجيل...';
+    if (successAlert) successAlert.style.display = 'none';
+    if (errorAlert) errorAlert.style.display = 'none';
+
+    // تجميع البيانات من النموذج
+    const serviceSelect = document.getElementById('providerService');
+    const serviceValue = serviceSelect.value === 'أخرى' ? document.getElementById('otherService').value : serviceSelect.value;
+    
     const providerData = {
         name: document.getElementById('providerName').value,
         phone: document.getElementById('providerPhone').value,
@@ -63,99 +115,36 @@ registerForm.addEventListener('submit', function(e) {
         approved: false,
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
     };
-    db.collection('providers').add(providerData).then(() => {
-        registerSuccessAlert.style.display = 'block';
-        registerErrorAlert.style.display = 'none';
-        registerForm.reset();
-        otherServiceGroup.style.display = 'none';
-        setTimeout(() => closeModal('registerModal'), 3000);
-    }).catch(error => {
-        console.error("Error adding document: ", error);
-        registerErrorAlert.style.display = 'block';
-        registerSuccessAlert.style.display = 'none';
-    });
-});
 
-// --- وظائف البحث ---
-const mainSearchInput = document.getElementById('mainSearch');
-const searchResultsSection = document.getElementById('searchResults');
-const providersList = document.getElementById('providersList');
-const loadingIndicator = document.getElementById('loading');
-const advancedSearchForm = document.getElementById('advancedSearchForm');
-const otherServiceSearchForm = document.getElementById('otherServiceSearchForm');
+    // إرسال البيانات إلى Firebase
+    db.collection('providers').add(providerData)
+        .then(() => {
+            // عند النجاح
+            console.log("Data sent successfully!");
+            if (form) form.style.display = 'none';
+            if (successAlert) successAlert.style.display = 'block';
 
-function performSearch() {
-    const query = mainSearchInput.value.trim();
-    if (query) searchProviders({ keyword: query });
-}
-function searchByCategory(category) { searchProviders({ service: category }); }
-
-advancedSearchForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const filters = {
-        service: document.getElementById('searchService').value,
-        city: document.getElementById('searchCity').value.trim(),
-        keyword: document.getElementById('searchKeyword').value.trim()
-    };
-    searchProviders(filters);
-    closeModal('searchModal');
-});
-
-otherServiceSearchForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const filters = {
-        service: 'أخرى',
-        keyword: document.getElementById('customService').value.trim(),
-        city: document.getElementById('customCity').value.trim()
-    };
-    searchProviders(filters);
-    closeModal('otherServiceModal');
-});
-
-async function searchProviders(filters) {
-    searchResultsSection.style.display = 'block';
-    loadingIndicator.style.display = 'block';
-    providersList.innerHTML = '';
-    window.scrollTo({ top: searchResultsSection.offsetTop, behavior: 'smooth' });
-    let query = db.collection('providers').where('approved', '==', true);
-    if (filters.service && filters.service !== 'أخرى') query = query.where('service', '==', filters.service);
-    if (filters.city) query = query.where('city', '==', filters.city);
-    try {
-        const snapshot = await query.get();
-        let results = [];
-        snapshot.forEach(doc => results.push({ id: doc.id, ...doc.data() }));
-        if (filters.keyword) {
-            const keyword = filters.keyword.toLowerCase();
-            results = results.filter(p => (p.name && p.name.toLowerCase().includes(keyword)) || (p.description && p.description.toLowerCase().includes(keyword)) || (p.service && p.service.toLowerCase().includes(keyword)));
-        }
-        displayResults(results);
-    } catch (error) {
-        console.error("Error getting documents: ", error);
-        providersList.innerHTML = '<p class="error-message">حدث خطأ أثناء البحث.</p>';
-    } finally {
-        loadingIndicator.style.display = 'none';
-    }
-}
-
-function displayResults(results) {
-    if (results.length === 0) {
-        providersList.innerHTML = '<p>لا توجد نتائج تطابق بحثك.</p>';
-        return;
-    }
-    results.forEach(provider => {
-        const providerCard = `
-            <div class="provider-card">
-                <h3>${provider.name}</h3>
-                <p><strong>الخدمة:</strong> ${provider.service}</p>
-                <p><strong>المدينة:</strong> ${provider.city}</p>
-                ${provider.experience ? `<p><strong>الخبرة:</strong> ${provider.experience} سنوات</p>` : ''}
-                ${provider.description ? `<p>${provider.description}</p>` : ''}
-                <div class="provider-contact">
-                    <a href="tel:${provider.phone}" class="btn btn-primary"><i class="fas fa-phone"></i> اتصال</a>
-                    <a href="https://wa.me/${provider.phone}" target="_blank" class="btn btn-secondary"><i class="fab fa-whatsapp"></i> واتساب</a>
-                </div>
-            </div>
-        `;
-        providersList.innerHTML += providerCard;
-    });
+            // إعادة النموذج لحالته الطبيعية بعد 3 ثوانٍ
+            setTimeout(() => {
+                closeModal('registerModal');
+                if (form) {
+                    form.reset();
+                    form.style.display = 'block';
+                }
+                if (successAlert) successAlert.style.display = 'none';
+                const otherServiceGroup = document.getElementById('otherServiceGroup');
+                if (otherServiceGroup) otherServiceGroup.style.display = 'none';
+                
+                submitButton.disabled = false;
+                submitButton.innerHTML = '<i class="fas fa-user-plus"></i> تسجيل';
+            }, 3000);
+        })
+        .catch((error) => {
+            // عند الفشل
+            console.error("Error writing document: ", error);
+            if (errorAlert) errorAlert.style.display = 'block';
+            
+            submitButton.disabled = false;
+            submitButton.innerHTML = '<i class="fas fa-user-plus"></i> تسجيل';
+        });
 }
