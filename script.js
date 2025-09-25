@@ -61,17 +61,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- تهيئة Firebase (الجزء الأكثر حساسية) ---
     try {
-        // تأكد من أن هذه المعلومات مطابقة تمامًا لما هو في مشروعك على Firebase
-        <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
+        
   // Your web app's Firebase configuration
   // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
+  <script>
+        const firebaseConfig = {
     apiKey: "AIzaSyD07eyfujC_p1PCn_4c4jd8r8ilZ5vbSu4",
     authDomain: "khidma2-a4a3b.firebaseapp.com",
     projectId: "khidma2-a4a3b",
