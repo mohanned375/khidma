@@ -134,32 +134,11 @@
     <div id="otherServiceModal" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('otherServiceModal')">&times;</span><h2>خدمة أخرى</h2><form id="otherServiceSearchForm"><div class="form-group"><label for="customService">نوع الخدمة:</label><input type="text" id="customService" required></div><button type="submit" class="btn btn-primary">بحث</button></form></div></div>
 
     <!-- ملفات JavaScript -->
-    <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyBSujjNja7qC_Lamp8DTH-T_O2ia2ZzU0E",
-    authDomain: "khidma-5cbbc.firebaseapp.com",
-    databaseURL: "https://khidma-5cbbc-default-rtdb.firebaseio.com",
-    projectId: "khidma-5cbbc",
-    storageBucket: "khidma-5cbbc.firebasestorage.app",
-    messagingSenderId: "992721988153",
-    appId: "1:992721988153:web:fdc12fdf50450781a2bbe8",
-    measurementId: "G-B6Z4JW78D3"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
+<script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-firestore.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
+
 
 
