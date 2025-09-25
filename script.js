@@ -1,108 +1,106 @@
 // ==================================================================
-//  ملف script.js - بناء على الاختبار الناجح
+//  ملف script.js - النسخة النهائية والمُجمعة
+//  بناءً على كل ما تم اكتشافه ومعالجته.
 // ==================================================================
 
-// --- 1. الدوال العامة التي تعمل مع onclick ---
-// هذه الدوال يجب أن تبقى هنا في النطاق العام
+// --- 1. الدوال العامة (Global Scope) ---
+// هذه الدوال يجب أن تبقى هنا ليتم استدعاؤها عبر 'onclick' في HTML.
 
+/**
+ * تبديل عرض القائمة المنسدلة على الهواتف.
+ */
 function toggleMenu() {
     const navMenu = document.getElementById('navMenu');
-    if (navMenu) navMenu.classList.toggle('active');
+    if (navMenu) {
+        navMenu.classList.toggle('active');
+    } else {
+        console.error("Error: Element with id 'navMenu' not found.");
+    }
 }
 
+/**
+ * تفتح أي نافذة منبثقة (modal) بناءً على الـ id الخاص بها.
+ * @param {string} modalId - الـ id الخاص بالنافذة المطلوب فتحها.
+ */
 function openModal(modalId) {
     const modal = document.getElementById(modalId);
-    if (modal) modal.style.display = 'flex';
+    if (modal) {
+        modal.style.display = 'flex'; // استخدام flex لتوسيط المحتوى
+    } else {
+        console.error("Error: Modal with id '" + modalId + "' not found.");
+    }
 }
 
+/**
+ * تغلق أي نافذة منبثقة (modal) بناءً على الـ id الخاص بها.
+ * @param {string} modalId - الـ id الخاص بالنافذة المطلوب إغلاقها.
+ */
 function closeModal(modalId) {
     const modal = document.getElementById(modalId);
-    if (modal) modal.style.display = 'none';
-}
-// تأكد من وجود هذه الدوال في ملفك
-function openModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) modal.style.display = 'flex';
+    if (modal) {
+        modal.style.display = 'none';
+    } else {
+        console.error("Error: Modal with id '" + modalId + "' not found.");
+    }
 }
 
+// --- دوال مساعدة لفتح نوافذ معينة (للحفاظ على نظافة HTML) ---
 function openRegisterModal() {
-    alert("تم استدعاء دالة openRegisterModal بنجاح!"); // <-- أضف هذا السطر
     openModal('registerModal');
 }
 
 function openSearchModal() {
-    alert("تم استدعاء دالة openSearchModal بنجاح!"); // <-- أضف هذا السطر
     openModal('searchModal');
 }
 
-
-// --- 2. الكود الرئيسي الذي يعمل بعد تحميل الصفحة ---
+// --- 2. الكود الرئيسي الذي يعمل بعد تحميل الصفحة بالكامل ---
+// نستخدم 'DOMContentLoaded' لضمان أن كل عناصر HTML قد تم تحميلها.
 document.addEventListener('DOMContentLoaded', function() {
-        
-    // --- تهيئة Firebase ---
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyBSujjNja7qC_Lamp8DTH-T_O2ia2ZzU0E",
-  authDomain: "khidma-5cbbc.firebaseapp.com",
-  databaseURL: "https://khidma-5cbbc-default-rtdb.firebaseio.com",
-  projectId: "khidma-5cbbc",
-  storageBucket: "khidma-5cbbc.firebasestorage.app",
-  messagingSenderId: "992721988153",
-  appId: "1:992721988153:web:77599e16ea175be6a2bbe8",
-  measurementId: "G-PBZ7HSXRJ4"
+    let db; // تعريف متغير قاعدة البيانات ليكون متاحًا في هذا النطاق
+
+    // --- تهيئة Firebase (الجزء الأكثر حساسية) ---
+    try {
+        // تأكد من أن هذه المعلومات مطابقة تمامًا لما هو في مشروعك على Firebase
+        const firebaseConfig = {
+  apiKey: "AIzaSyBSujjNja7qC_Lamp8DTH-T_O2ia2ZzU0E", // استبدل هذا
+  authDomain: "khidma-5cbbc.firebaseapp.com", // استبدل هذا
+  projectId: "khidma-5cbbc", // استبدل هذا
+  storageBucket: "khidma-5cbbc.firebasestorage.app", // استبدل هذا
+  messagingSenderId: "992721988153", // استبدل هذا
+  appId: "1:992721988153:web:77599e16ea175be6a2bbe8" // استبدل هذا
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+        // تهيئة Firebase بالطريقة المتوافقة مع الإصدار 7
         firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-        console.log("Firebase Initialized Successfully.");
-    } catch (error) {
-        console.error("Firebase Initialization Failed: ", error);
-    }
-// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-    // أضف هذا الجزء للتحقق من وجود المكتبات
-    if (typeof firebase === 'undefined' || typeof firebase.initializeApp !== 'function') {
-        alert("خطأ فادح: مكتبة Firebase الأساسية (app) غير محملة! تحقق من ملف index.html.");
-        return; // أوقف كل شيء إذا كانت المكتبة الأساسية غير موجودة
-    }
-    if (typeof firebase.firestore !== 'function') {
-        alert("خطأ فادح: مكتبة Firestore غير محملة! تحقق من ملف index.html.");
-        return; // أوقف كل شيء إذا كانت مكتبة Firestore غير موجودة
-    }
-    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        
+        // الحصول على اتصال بقاعدة بيانات Firestore
+        db = firebase.firestore();
 
-    // --- ربط نموذج التسجيل (بناءً على اختبارنا الناجح) ---
+    } catch (error) {
+        console.error("فشل كارثي في تهيئة Firebase: ", error);
+        alert("فشل الاتصال بالخادم. يرجى المحاولة مرة أخرى لاحقًا.");
+    }
+
+    // --- ربط نموذج التسجيل ---
+    // هذا الكود يربط زر "تسجيل" الداخلي بالدالة التي ترسل البيانات.
     const registerForm = document.getElementById('registerForm');
     if (registerForm) {
-        console.log("Register form found successfully.");
-        
         registerForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // منع التحديث
+            event.preventDefault(); // منع تحديث الصفحة عند الإرسال
             
-            // التحقق من وجود اتصال بقاعدة البيانات
+            // التحقق من أن اتصال قاعدة البيانات قد تم بنجاح قبل الإرسال
             if (db) {
-                // إذا كان الاتصال موجودًا، قم بتشغيل دالة الإرسال
                 handleSubmit(db);
             } else {
-                // إذا فشل الاتصال، اعرض رسالة خطأ
-                alert("فشل الاتصال بقاعدة البيانات. لا يمكن إرسال النموذج.");
-                console.error("Cannot submit form: Database connection is not available.");
+                alert("خطأ في الاتصال بقاعدة البيانات. لا يمكن إرسال النموذج.");
             }
         });
     } else {
-        console.error("CRITICAL ERROR: Register form not found on page load.");
+        console.error("خطأ فادح: نموذج التسجيل 'registerForm' غير موجود.");
     }
 
-    // --- ربط حقل "نوع الخدمة" ---
+    // --- ربط قائمة اختيار الخدمة لإظهار حقل "أخرى" ---
     const providerServiceSelect = document.getElementById('providerService');
     const otherServiceGroup = document.getElementById('otherServiceGroup');
     if (providerServiceSelect && otherServiceGroup) {
@@ -110,23 +108,26 @@ const analytics = getAnalytics(app);
             otherServiceGroup.style.display = (this.value === 'أخرى') ? 'block' : 'none';
         });
     }
-});
+
+}); // نهاية 'DOMContentLoaded'
 
 
 // --- 3. دالة إرسال بيانات التسجيل (handleSubmit) ---
-// هذه الدالة لن تعمل إلا إذا تم استدعاؤها بنجاح
+// هذه الدالة تقوم بالعمل الفعلي: جمع البيانات وإرسالها إلى Firebase.
 function handleSubmit(db) {
     const form = document.getElementById('registerForm');
     const successAlert = document.getElementById('registerSuccess');
     const errorAlert = document.getElementById('registerError');
     const submitButton = form.querySelector('button[type="submit"]');
 
+    // تعطيل الزر وعرض "جاري التسجيل..."
     submitButton.disabled = true;
     submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التسجيل...';
     
     const serviceSelect = document.getElementById('providerService');
     const serviceValue = serviceSelect.value === 'أخرى' ? document.getElementById('otherService').value : serviceSelect.value;
     
+    // تجميع بيانات النموذج في كائن واحد
     const providerData = {
         name: document.getElementById('providerName').value,
         phone: document.getElementById('providerPhone').value,
@@ -135,25 +136,33 @@ function handleSubmit(db) {
         description: document.getElementById('providerDescription').value,
         experience: document.getElementById('providerExperience').value,
         approved: false,
+        // استخدام طريقة الوقت المتوافقة مع الإصدار 7
         timestamp: firebase.firestore.Timestamp.now()
     };
 
+    // إرسال البيانات إلى مجموعة 'providers' في Firestore
     db.collection('providers').add(providerData)
         .then(() => {
-            form.style.display = 'none';
-            successAlert.style.display = 'block';
+            // في حالة النجاح
+            form.style.display = 'none'; // إخفاء النموذج
+            successAlert.style.display = 'block'; // إظهار رسالة "تم التسجيل بنجاح"
+
+            // بعد 3 ثوانٍ، قم بإغلاق النافذة وإعادة كل شيء لوضعه الطبيعي
             setTimeout(() => {
                 closeModal('registerModal');
-                form.reset();
-                form.style.display = 'block';
-                successAlert.style.display = 'none';
-                submitButton.disabled = false;
+                form.reset(); // مسح بيانات النموذج
+                form.style.display = 'block'; // إعادة إظهار النموذج للمرة القادمة
+                successAlert.style.display = 'none'; // إخفاء رسالة النجاح
+                submitButton.disabled = false; // إعادة تفعيل الزر
                 submitButton.innerHTML = '<i class="fas fa-user-plus"></i> تسجيل';
             }, 3000);
         })
         .catch((error) => {
-            console.error("Error writing document: ", error);
-            errorAlert.style.display = 'block';
+            // في حالة الفشل
+            console.error("خطأ أثناء الكتابة في قاعدة البيانات: ", error);
+            errorAlert.style.display = 'block'; // إظهار رسالة الخطأ
+            
+            // إعادة تفعيل الزر للسماح للمستخدم بالمحاولة مرة أخرى
             submitButton.disabled = false;
             submitButton.innerHTML = '<i class="fas fa-user-plus"></i> تسجيل';
         });
