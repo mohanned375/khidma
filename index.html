@@ -128,10 +128,137 @@
         </div>
     </footer>
 
-    <!-- النماذج المنبثقة (Modals) -->
-    <div id="registerModal" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('registerModal')">&times;</span><h2>تسجيل مقدم خدمة</h2><form id="registerForm"><div class="form-group"><label for="providerName">الاسم:</label><input type="text" id="providerName" required></div><div class="form-group"><label for="providerPhone">الهاتف:</label><input type="tel" id="providerPhone" required></div><div class="form-group"><label for="providerService">الخدمة:</label><select id="providerService" required><option value="">اختر الخدمة</option><option value="بناء">بناء</option><option value="كهرباء">كهرباء</option><option value="سباكة">سباكة</option><option value="ميكانيكا">ميكانيكا</option><option value="نجارة">نجارة</option><option value="أخرى">أخرى</option></select></div><div class="form-group" id="otherServiceGroup" style="display: none;"><label for="otherService">حدد الخدمة:</label><input type="text" id="otherService"></div><div class="form-group"><label for="providerCity">المدينة:</label><input type="text" id="providerCity" required></div><button type="submit" class="btn btn-primary">تسجيل</button></form></div></div>
-    <div id="searchModal" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('searchModal')">&times;</span><h2>البحث المتقدم</h2><form id="advancedSearchForm"><div class="form-group"><label for="searchService">الخدمة:</label><select id="searchService"><option value="">كل الخدمات</option><option value="بناء">بناء</option><option value="كهرباء">كهرباء</option><option value="سباكة">سباكة</option><option value="ميكانيكا">ميكانيكا</option><option value="نجارة">نجارة</option></select></div><div class="form-group"><label for="searchCity">المدينة:</label><input type="text" id="searchCity"></div><button type="submit" class="btn btn-primary">بحث</button></form></div></div>
-    <div id="otherServiceModal" class="modal"><div class="modal-content"><span class="close" onclick="closeModal('otherServiceModal')">&times;</span><h2>خدمة أخرى</h2><form id="otherServiceSearchForm"><div class="form-group"><label for="customService">نوع الخدمة:</label><input type="text" id="customService" required></div><button type="submit" class="btn btn-primary">بحث</button></form></div></div>
+    <!-- ================================================================== -->
+<!--      الكود الكامل والصحيح لكل النماذج المنبثقة (Modals)      -->
+<!-- ================================================================== -->
+
+<!-- نموذج تسجيل مقدم الخدمة -->
+<div id="registerModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('registerModal')">&times;</span>
+        <h2>تسجيل مقدم خدمة جديد</h2>
+        
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="providerName">الاسم الكامل:</label>
+                <input type="text" id="providerName" name="name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="providerPhone">رقم الهاتف:</label>
+                <input type="tel" id="providerPhone" name="phone" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="providerService">نوع الخدمة:</label>
+                <select id="providerService" name="service" required>
+                    <option value="">اختر نوع الخدمة</option>
+                    <option value="بناء">خدمات البناء</option>
+                    <option value="كهرباء">خدمات الكهرباء</option>
+                    <option value="سباكة">خدمات السباكة</option>
+                    <option value="ميكانيكا">خدمات الميكانيكا</option>
+                    <option value="نجارة">خدمات النجارة</option>
+                    <option value="حرف">الأعمال الحرفية</option>
+                    <option value="أخرى">أخرى</option>
+                </select>
+            </div>
+            
+            <div class="form-group" id="otherServiceGroup" style="display: none;">
+                <label for="otherService">حدد نوع الخدمة:</label>
+                <input type="text" id="otherService" name="otherService">
+            </div>
+            
+            <div class="form-group">
+                <label for="providerCity">المدينة:</label>
+                <input type="text" id="providerCity" name="city" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="providerDescription">وصف الخدمة:</label>
+                <textarea id="providerDescription" name="description" placeholder="اكتب وصفاً مختصراً عن خدماتك وخبرتك"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="providerExperience">سنوات الخبرة:</label>
+                <input type="number" id="providerExperience" name="experience" min="0" max="50">
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%;">
+                <i class="fas fa-user-plus"></i> تسجيل
+            </button>
+        </form>
+        
+        <!-- عناصر التنبيه المفقودة -->
+        <div class="alert alert-success" id="registerSuccess" style="display: none;">
+            تم تسجيلك بنجاح! سيتم مراجعة بياناتك والموافقة عليها قريباً.
+        </div>
+        <div class="alert alert-error" id="registerError" style="display: none;">
+            حدث خطأ أثناء التسجيل. يرجى المحاولة مرة أخرى.
+        </div>
+    </div>
+</div>
+
+<!-- نموذج البحث المتقدم -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('searchModal')">&times;</span>
+        <h2>البحث المتقدم</h2>
+        
+        <form id="advancedSearchForm">
+            <div class="form-group">
+                <label for="searchService">نوع الخدمة:</label>
+                <select id="searchService" name="service">
+                    <option value="">جميع الخدمات</option>
+                    <option value="بناء">خدمات البناء</option>
+                    <option value="كهرباء">خدمات الكهرباء</option>
+                    <option value="سباكة">خدمات السباكة</option>
+                    <option value="ميكانيكا">خدمات الميكانيكا</option>
+                    <option value="نجارة">خدمات النجارة</option>
+                    <option value="حرف">الأعمال الحرفية</option>
+                    <option value="أخرى">أخرى</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="searchCity">المدينة:</label>
+                <input type="text" id="searchCity" name="city" placeholder="اكتب اسم المدينة">
+            </div>
+            
+            <div class="form-group">
+                <label for="searchKeyword">كلمة مفتاحية:</label>
+                <input type="text" id="searchKeyword" name="keyword" placeholder="ابحث بكلمة مفتاحية">
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%;">
+                <i class="fas fa-search"></i> بحث
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- نموذج خدمة أخرى -->
+<div id="otherServiceModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('otherServiceModal')">&times;</span>
+        <h2>البحث عن خدمة أخرى</h2>
+        
+        <form id="otherServiceSearchForm">
+            <div class="form-group">
+                <label for="customService">نوع الخدمة المطلوبة:</label>
+                <input type="text" id="customService" name="customService" placeholder="اكتب نوع الخدمة التي تبحث عنها" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="customCity">المدينة:</label>
+                <input type="text" id="customCity" name="city" placeholder="اكتب اسم المدينة">
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%;">
+                <i class="fas fa-search"></i> بحث
+            </button>
+        </form>
+    </div>
+</div>
 
     <!-- ملفات JavaScript -->
 <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
@@ -139,6 +266,7 @@
 <script src="script.js"></script>
 </body>
 </html>
+
 
 
 
