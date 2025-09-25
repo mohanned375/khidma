@@ -62,18 +62,29 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- تهيئة Firebase (الجزء الأكثر حساسية) ---
     try {
         // تأكد من أن هذه المعلومات مطابقة تمامًا لما هو في مشروعك على Firebase
-        const firebaseConfig = {
-  apiKey: "AIzaSyBSujjNja7qC_Lamp8DTH-T_O2ia2ZzU0E", // استبدل هذا
-  authDomain: "khidma-5cbbc.firebaseapp.com", // استبدل هذا
-  projectId: "khidma-5cbbc", // استبدل هذا
-  storageBucket: "khidma-5cbbc.firebasestorage.app", // استبدل هذا
-  messagingSenderId: "992721988153", // استبدل هذا
-  appId: "1:992721988153:web:77599e16ea175be6a2bbe8" // استبدل هذا
-};
+        <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
 
-        // تهيئة Firebase بالطريقة المتوافقة مع الإصدار 7
-        firebase.initializeApp(firebaseConfig);
-        
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyD07eyfujC_p1PCn_4c4jd8r8ilZ5vbSu4",
+    authDomain: "khidma2-a4a3b.firebaseapp.com",
+    projectId: "khidma2-a4a3b",
+    storageBucket: "khidma2-a4a3b.firebasestorage.app",
+    messagingSenderId: "617281495445",
+    appId: "1:617281495445:web:d0dd353f7c065ef763169c",
+    measurementId: "G-QQYLJTSFKL"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
         // الحصول على اتصال بقاعدة بيانات Firestore
         db = firebase.firestore();
 
