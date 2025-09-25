@@ -38,19 +38,7 @@ function openSearchModal() {
 
 // --- 2. الكود الرئيسي الذي يعمل بعد تحميل الصفحة ---
 document.addEventListener('DOMContentLoaded', function() {
-        // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-    // أضف هذا الجزء للتحقق من وجود المكتبات
-    if (typeof firebase === 'undefined' || typeof firebase.initializeApp !== 'function') {
-        alert("خطأ فادح: مكتبة Firebase الأساسية (app) غير محملة! تحقق من ملف index.html.");
-        return; // أوقف كل شيء إذا كانت المكتبة الأساسية غير موجودة
-    }
-    if (typeof firebase.firestore !== 'function') {
-        alert("خطأ فادح: مكتبة Firestore غير محملة! تحقق من ملف index.html.");
-        return; // أوقف كل شيء إذا كانت مكتبة Firestore غير موجودة
-    }
-    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-
+        
     // --- تهيئة Firebase ---
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
@@ -75,11 +63,22 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
         firebase.initializeApp(firebaseConfig);
-        db = firebase.firestore();
+        const db = firebase.firestore();
         console.log("Firebase Initialized Successfully.");
     } catch (error) {
         console.error("Firebase Initialization Failed: ", error);
     }
+// vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+    // أضف هذا الجزء للتحقق من وجود المكتبات
+    if (typeof firebase === 'undefined' || typeof firebase.initializeApp !== 'function') {
+        alert("خطأ فادح: مكتبة Firebase الأساسية (app) غير محملة! تحقق من ملف index.html.");
+        return; // أوقف كل شيء إذا كانت المكتبة الأساسية غير موجودة
+    }
+    if (typeof firebase.firestore !== 'function') {
+        alert("خطأ فادح: مكتبة Firestore غير محملة! تحقق من ملف index.html.");
+        return; // أوقف كل شيء إذا كانت مكتبة Firestore غير موجودة
+    }
+    // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
     // --- ربط نموذج التسجيل (بناءً على اختبارنا الناجح) ---
     const registerForm = document.getElementById('registerForm');
