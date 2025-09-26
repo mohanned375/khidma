@@ -64,7 +64,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
   // Your web app's Firebase configuration
   // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  <script>
         const firebaseConfig = {
     apiKey: "AIzaSyD07eyfujC_p1PCn_4c4jd8r8ilZ5vbSu4",
     authDomain: "khidma2-a4a3b.firebaseapp.com",
@@ -76,11 +75,8 @@ document.addEventListener('DOMContentLoaded', function() {
   };
 
   // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
-        // الحصول على اتصال بقاعدة بيانات Firestore
-        db = firebase.firestore();
+  firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
     } catch (error) {
         console.error("فشل كارثي في تهيئة Firebase: ", error);
