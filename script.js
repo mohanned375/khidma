@@ -1,11 +1,20 @@
 // ==================================================================
 //  ملف script.js - النسخة النهائية والمُجمعة
-// --- تهيئة Supabase ---
+// ==================================================================
+
+// --- 1. تهيئة Supabase (دائمًا في الأعلى) ---
 const supabaseUrl = 'https://lzrzyjkzutlpwlxfnpxe.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx6cnp5amt6dXRscHdseGZucHhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg5NTg2MDEsImV4cCI6MjA3NDUzNDYwMX0.3X9SVBgVSdaceVcTEIMPHznIHVqNfTk4yJRrBhtzKVo';
+// *** الإصلاح الأول: يجب استخدام supabase.createClient ***
 const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-/*تبديل عرض القائمة المنسدلة على الهواتف.
+
+// ==================================================================
+// --- 2. تعريف الدوال العامة التي يتم استدعاؤها من HTML (onclick) ---
+// ==================================================================
+
+/**
+ * تبديل عرض القائمة المنسدلة على الهواتف.
  */
 function toggleMenu() {
     const navMenu = document.getElementById('navMenu');
@@ -42,7 +51,7 @@ function closeModal(modalId) {
     }
 }
 
-// --- دوال مساعدة لفتح نوافذ معينة (للحفاظ على نظافة HTML) ---
+// --- دوال مساعدة لفتح نوافذ معينة ---
 function openRegisterModal() {
     openModal('registerModal');
 }
@@ -51,60 +60,69 @@ function openSearchModal() {
     openModal('searchModal');
 }
 
-// --- 2. الكود الرئيسي الذي يعمل بعد تحميل الصفحة بالكامل ---
-// نستخدم 'DOMContentLoaded' لضمان أن كل عناصر HTML قد تم تحميلها.
+
+// ==================================================================
+// --- 3. الكود الذي يعمل بعد تحميل الصفحة بالكامل (باستخدام addEventListener) ---
+// ==================================================================
 document.addEventListener('DOMContentLoaded', function() {
-const registerForm = document.getElementById('registerForm')};
-if (registerForm) registerForm.addEventListener('submit', async function(e) {
-    e.preventDefault(); // امنع الإرسال الافتراضي للنموذج
 
-    const submitButton = registerForm.querySelector('button[type="submit"]');
-    const originalButtonText = submitButton.innerHTML;
-    submitButton.disabled = true;
-    submitButton.innerHTML = 'جاري التسجيل...';
+    // *** الإصلاح الثاني: كل الكود التالي يجب أن يكون داخل هذا القوس ***
 
-    // عرض رسائل التنبيه
-    const registerSuccessAlert = document.getElementById('registerSuccess');
-    const registerErrorAlert = document.getElementById('registerError');
-    registerSuccessAlert.style.display = 'none';
-    registerErrorAlert.style.display = 'none';
+    const registerForm = document.getElementById('registerForm');
+    if (registerForm) {
+        registerForm.addEventListener('submit', async function(e) {
+            e.preventDefault(); // امنع الإرسال الافتراضي للنموذج
 
-    // جمع البيانات من النموذج
-    const serviceSelect = document.getElementById('providerService');
-    const serviceValue = serviceSelect.value === 'أخرى' ? document.getElementById('otherService').value : serviceSelect.value;
+            const submitButton = registerForm.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.innerHTML;
+            submitButton.disabled = true;
+            submitButton.innerHTML = 'جاري التسجيل...';
 
-    const providerData = {
-        name: document.getElementById('providerName').value,
-        phone: document.getElementById('providerPhone').value,
-        service: serviceValue,
-        city: document.getElementById('providerCity').value,
-        description: document.getElementById('providerDescription').value,
-        years_experience: document.getElementById('providerExperience').value, // <-- تم التحديث هنا
-        is_approved: false // <-- تم التحديث هنا
-    };
-
-    // إرسال البيانات إلى Supabase
-    const { data, error } = await supabase
-        .from('providers')
-        .insert([providerData]);
-
-    if (error) {
-        console.error('Supabase error:', error.message);
-        registerErrorAlert.textContent = 'حدث خطأ أثناء التسجيل: ' + error.message;
-        registerErrorAlert.style.display = 'block';
-        submitButton.disabled = false;
-        submitButton.innerHTML = originalButtonText;
-    } else {
-        console.log('Supabase success:', data);
-        registerSuccessAlert.style.display = 'block';
-        registerForm.reset();
-        setTimeout(() => {
-            closeModal('registerModal');
+            // عرض رسائل التنبيه
+            const registerSuccessAlert = document.getElementById('registerSuccess');
+            const registerErrorAlert = document.getElementById('registerError');
             registerSuccessAlert.style.display = 'none';
-        }, 3000);
-        submitButton.disabled = false;
-        submitButton.innerHTML = 'تم التسجيل بنجاح!';
-    }
-});
+            registerErrorAlert.style.display = 'none';
 
+            // جمع البيانات من النموذج
+            const serviceSelect = document.getElementById('providerService');
+            const serviceValue = serviceSelect.value === 'أخرى' ? document.getElementById('otherService').value : serviceSelect.value;
 
+            const providerData = {
+                name: document.getElementById('providerName').value,
+                phone: document.getElementById('providerPhone').value,
+                service: serviceValue,
+                city: document.getElementById('providerCity').value,
+                description: document.getElementById('providerDescription').value,
+                years_experience: document.getElementById('providerExperience').value,
+                is_approved: false
+            };
+
+            // إرسال البيانات إلى Supabase
+            const { data, error } = await supabase
+                .from('providers')
+                .insert([providerData]);
+
+            if (error) {
+                console.error('Supabase error:', error.message);
+                registerErrorAlert.textContent = 'حدث خطأ أثناء التسجيل: ' + error.message;
+                registerErrorAlert.style.display = 'block';
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalButtonText;
+            } else {
+                console.log('Supabase success:', data);
+                registerSuccessAlert.style.display = 'block';
+                registerForm.reset();
+                setTimeout(() => {
+                    closeModal('registerModal');
+                    registerSuccessAlert.style.display = 'none';
+                }, 3000);
+                submitButton.disabled = false;
+                submitButton.innerHTML = 'تم التسجيل بنجاح!';
+            }
+        });
+    } // --- نهاية if (registerForm) ---
+
+    // يمكنك إضافة أي كود آخر يستخدم addEventListener هنا في المستقبل
+
+}); // --- *** نهاية document.addEventListener *** ---
