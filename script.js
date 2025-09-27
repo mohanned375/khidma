@@ -54,7 +54,20 @@ function closeModal(modalId) {
 // --- دوال مساعدة لفتح نوافذ معينة ---
 function openRegisterModal() {
     openModal('registerModal');
+
+    // --- هذا هو السطر الجديد الذي سيحل المشكلة ---
+    // ابحث عن زر التسجيل وأعده إلى حالته الأصلية
+    const registerForm = document.getElementById('registerForm');
+    if (registerForm) {
+        const submitButton = registerForm.querySelector('button[type="submit"]');
+        if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.innerHTML = '<i class="fas fa-user-plus"></i> تسجيل'; // أعد النص والأيقونة
+        }
+        registerForm.reset(); // قم بإفراغ الحقول أيضًا
+    }
 }
+
 
 function openSearchModal() {
     openModal('searchModal');
@@ -125,4 +138,124 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // يمكنك إضافة أي كود آخر يستخدم addEventListener هنا في المستقبل
 
-}); // --- *** نهاية document.addEventListener *** ---
+}); // --- *** نهاية document.addEventListener *** --
+
+// ==================================================================
+// --- 4. وظائف البحث (مُعدَّلة لـ Supabase) ---
+// ==================================================================
+
+// --- الربط مع عناصر HTML الخاصة بالبحث (داخل DOMContentLoaded) ---
+document.addEventListener('DOMContentLoaded', () => {
+    const mainSearchInput = document.getElementById('mainSearch');
+    const mainSearchButton = document.querySelector('.search-container .search-btn');
+    const advancedSearchForm = document.getElementById('advancedSearchForm');
+    const otherServiceSearchForm = document.getElementById('otherServiceSearchForm');
+
+    if (mainSearchButton) {
+        mainSearchButton.addEventListener('click', () => performSearch(mainSearchInput.value));
+    }
+    if (advancedSearchForm) {
+        advancedSearchForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const filters = {
+                service: document.getElementById('searchService').value,
+                city: document.getElementById('searchCity').value.trim()
+            };
+            searchProviders(filters);
+            closeModal('searchModal');
+        });
+    }
+    if (otherServiceSearchForm) {
+        otherServiceSearchForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const filters = {
+                keyword: document.getElementById('customService').value.trim(),
+                city: document.getElementById('customCity').value.trim()
+            };
+            searchProviders(filters);
+            closeModal('otherServiceModal');
+        });
+    }
+});
+
+// --- الدوال العامة للبحث (يمكن استدعاؤها من أي مكان) ---
+function performSearch(query) {
+    if (query && query.trim()) {
+        searchProviders({ keyword: query.trim() });
+    }
+}
+
+function searchByCategory(category) {
+    searchProviders({ service: category });
+}
+
+// --- الدالة الأساسية التي تجلب البيانات من Supabase ---
+async function searchProviders(filters) {
+    const searchResultsSection = document.getElementById('searchResults');
+    const providersList = document.getElementById('providersList');
+    const loadingIndicator = document.getElementById('loading');
+
+    if (!searchResultsSection || !providersList || !loadingIndicator) {
+        console.error("خطأ: عناصر عرض نتائج البحث غير موجودة.");
+        return;
+    }
+
+    searchResultsSection.style.display = 'block';
+    loadingIndicator.style.display = 'block';
+    providersList.innerHTML = '';
+    window.scrollTo({ top: searchResultsSection.offsetTop, behavior: 'smooth' });
+
+    // بناء الاستعلام (Query) لـ Supabase
+    let query = supabaseClient
+        .from('providers')
+        .select('*')
+        .eq('is_approved', true); // جلب الموافق عليهم فقط
+
+    if (filters.service) {
+        query = query.eq('service', filters.service);
+    }
+    if (filters.city) {
+        query = query.ilike('city', `%${filters.city}%`); // بحث غير حساس لحالة الأحرف
+    }
+    if (filters.keyword) {
+        // البحث في عدة حقول باستخدام or
+        query = query.or(`name.ilike.%${filters.keyword}%,description.ilike.%${filters.keyword}%,service.ilike.%${filters.keyword}%`);
+    }
+
+    // تنفيذ الاستعلام
+    const { data, error } = await query;
+
+    loadingIndicator.style.display = 'none';
+
+    if (error) {
+        console.error('Supabase search error:', error.message);
+        providersList.innerHTML = '<p class="error-message">حدث خطأ أثناء البحث.</p>';
+    } else if (data && data.length > 0) {
+        displayResults(data);
+    } else {
+        providersList.innerHTML = '<p>لا توجد نتائج تطابق بحثك.</p>';
+    }
+}
+
+// --- دالة عرض النتائج في الصفحة ---
+function displayResults(results) {
+    const providersList = document.getElementById('providersList');
+    providersList.innerHTML = ''; // إفراغ القائمة قبل إضافة النتائج الجديدة
+
+    results.forEach(provider => {
+        const providerCard = `
+            <div class="provider-card">
+                <h3>${provider.name}</h3>
+                <p><strong>الخدمة:</strong> ${provider.service}</p>
+                <p><strong>المدينة:</strong> ${provider.city}</p>
+                ${provider.years_experience ? `<p><strong>الخبرة:</strong> ${provider.years_experience} سنوات</p>` : ''}
+                ${provider.description ? `<p>${provider.description}</p>` : ''}
+                <div class="provider-contact">
+                    <a href="tel:${provider.phone}" class="btn btn-primary"><i class="fas fa-phone"></i> اتصال</a>
+                    <a href="https://wa.me/${provider.phone.replace(/\D/g,'')}" target="_blank" class="btn btn-secondary"><i class="fab fa-whatsapp"></i> واتساب</a>
+                </div>
+            </div>
+        `;
+        providersList.innerHTML += providerCard;
+    });
+}
