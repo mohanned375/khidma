@@ -240,22 +240,32 @@ async function searchProviders(filters) {
 // --- دالة عرض النتائج في الصفحة ---
 function displayResults(results) {
     const providersList = document.getElementById('providersList');
-    providersList.innerHTML = ''; // إفراغ القائمة قبل إضافة النتائج الجديدة
+    if (!providersList) {
+        console.error("Element with id 'providersList' not found.");
+        return;
+    }
 
+    if (!results || results.length === 0) {
+        providersList.innerHTML = '<p>لا توجد نتائج تطابق بحثك.</p>';
+        return;
+    }
+
+    let content = '';
     results.forEach(provider => {
-        const providerCard = `
+        content += `
             <div class="provider-card">
                 <h3>${provider.name}</h3>
                 <p><strong>الخدمة:</strong> ${provider.service}</p>
                 <p><strong>المدينة:</strong> ${provider.city}</p>
-                ${provider.years_experience ? `<p><strong>الخبرة:</strong> ${provider.years_experience} سنوات</p>` : ''}
+                ${provider.years_of_experience ? `<p><strong>الخبرة:</strong> ${provider.years_of_experience} سنوات</p>` : ''}
                 ${provider.description ? `<p>${provider.description}</p>` : ''}
                 <div class="provider-contact">
                     <a href="tel:${provider.phone}" class="btn btn-primary"><i class="fas fa-phone"></i> اتصال</a>
-                    <a href="https://wa.me/${provider.phone.replace(/\D/g,'')}" target="_blank" class="btn btn-secondary"><i class="fab fa-whatsapp"></i> واتساب</a>
+                    <a href="https://wa.me/${String(provider.phone).replace(/\D/g,'')}" target="_blank" class="btn btn-secondary"><i class="fab fa-whatsapp"></i> واتساب</a>
                 </div>
             </div>
         `;
-        providersList.innerHTML += providerCard;
     });
+    providersList.innerHTML = content;
 }
+
