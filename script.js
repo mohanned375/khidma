@@ -75,29 +75,26 @@ function openSearchModal() {
 
 
 // ==================================================================
-// --- 3. الكود الذي يعمل بعد تحميل الصفحة بالكامل (باستخدام addEventListener) ---
+// --- 3. الكود الذي يعمل بعد تحميل الصفحة بالكامل (مستمع واحد فقط) ---
 // ==================================================================
 document.addEventListener('DOMContentLoaded', function() {
 
-    // *** الإصلاح الثاني: كل الكود التالي يجب أن يكون داخل هذا القوس ***
-
+    // --- الربط مع نموذج التسجيل ---
     const registerForm = document.getElementById('registerForm');
     if (registerForm) {
         registerForm.addEventListener('submit', async function(e) {
-            e.preventDefault(); // امنع الإرسال الافتراضي للنموذج
+            e.preventDefault();
 
             const submitButton = registerForm.querySelector('button[type="submit"]');
             const originalButtonText = submitButton.innerHTML;
             submitButton.disabled = true;
             submitButton.innerHTML = 'جاري التسجيل...';
 
-            // عرض رسائل التنبيه
             const registerSuccessAlert = document.getElementById('registerSuccess');
             const registerErrorAlert = document.getElementById('registerError');
             registerSuccessAlert.style.display = 'none';
             registerErrorAlert.style.display = 'none';
 
-            // جمع البيانات من النموذج
             const serviceSelect = document.getElementById('providerService');
             const serviceValue = serviceSelect.value === 'أخرى' ? document.getElementById('otherService').value : serviceSelect.value;
 
@@ -111,7 +108,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 is_approved: false
             };
 
-            // إرسال البيانات إلى Supabase
             const { data, error } = await supabase
                 .from('providers')
                 .insert([providerData]);
@@ -130,28 +126,27 @@ document.addEventListener('DOMContentLoaded', function() {
                     closeModal('registerModal');
                     registerSuccessAlert.style.display = 'none';
                 }, 3000);
-                submitButton.disabled = false;
-                submitButton.innerHTML = 'تم التسجيل بنجاح!';
+                // لا تقم بتعطيل الزر هنا، سيتم إعادة تعيينه عند فتح النموذج مرة أخرى
             }
         });
-    } // --- نهاية if (registerForm) ---
+    }
 
-    // يمكنك إضافة أي كود آخر يستخدم addEventListener هنا في المستقبل
+    // --- الربط مع حقل "خدمة أخرى" في نموذج التسجيل ---
+    const providerServiceSelect = document.getElementById('providerService');
+    const otherServiceGroup = document.getElementById('otherServiceGroup');
+    if (providerServiceSelect && otherServiceGroup) {
+        providerServiceSelect.addEventListener('change', function() {
+            otherServiceGroup.style.display = (this.value === 'أخرى') ? 'block' : 'none';
+        });
+    }
 
-}); // --- *** نهاية document.addEventListener *** --
-
-// ==================================================================
-// --- 4. وظائف البحث (مُعدَّلة لـ Supabase) ---
-// ==================================================================
-
-// --- الربط مع عناصر HTML الخاصة بالبحث (داخل DOMContentLoaded) ---
-document.addEventListener('DOMContentLoaded', () => {
+    // --- الربط مع عناصر HTML الخاصة بالبحث ---
     const mainSearchInput = document.getElementById('mainSearch');
     const mainSearchButton = document.querySelector('.search-container .search-btn');
     const advancedSearchForm = document.getElementById('advancedSearchForm');
     const otherServiceSearchForm = document.getElementById('otherServiceSearchForm');
 
-    if (mainSearchButton) {
+    if (mainSearchButton && mainSearchInput) {
         mainSearchButton.addEventListener('click', () => performSearch(mainSearchInput.value));
     }
     if (advancedSearchForm) {
@@ -176,9 +171,14 @@ document.addEventListener('DOMContentLoaded', () => {
             closeModal('otherServiceModal');
         });
     }
-});
 
-// --- الدوال العامة للبحث (يمكن استدعاؤها من أي مكان) ---
+}); // --- *** نهاية document.addEventListener الوحيد *** ---
+
+
+// ==================================================================
+// --- 4. وظائف البحث (تبقى خارج addEventListener) ---
+// ==================================================================
+
 function performSearch(query) {
     if (query && query.trim()) {
         searchProviders({ keyword: query.trim() });
@@ -189,7 +189,6 @@ function searchByCategory(category) {
     searchProviders({ service: category });
 }
 
-// --- الدالة الأساسية التي تجلب البيانات من Supabase ---
 async function searchProviders(filters) {
     const searchResultsSection = document.getElementById('searchResults');
     const providersList = document.getElementById('providersList');
@@ -205,24 +204,21 @@ async function searchProviders(filters) {
     providersList.innerHTML = '';
     window.scrollTo({ top: searchResultsSection.offsetTop, behavior: 'smooth' });
 
-    // بناء الاستعلام (Query) لـ Supabase
-    let query = supabaseClient
+    let query = supabase
         .from('providers')
         .select('*')
-        .eq('is_approved', true); // جلب الموافق عليهم فقط
+        .eq('is_approved', true);
 
     if (filters.service) {
         query = query.eq('service', filters.service);
     }
     if (filters.city) {
-        query = query.ilike('city', `%${filters.city}%`); // بحث غير حساس لحالة الأحرف
+        query = query.ilike('city', `%${filters.city}%`);
     }
     if (filters.keyword) {
-        // البحث في عدة حقول باستخدام or
         query = query.or(`name.ilike.%${filters.keyword}%,description.ilike.%${filters.keyword}%,service.ilike.%${filters.keyword}%`);
     }
 
-    // تنفيذ الاستعلام
     const { data, error } = await query;
 
     loadingIndicator.style.display = 'none';
@@ -230,14 +226,11 @@ async function searchProviders(filters) {
     if (error) {
         console.error('Supabase search error:', error.message);
         providersList.innerHTML = '<p class="error-message">حدث خطأ أثناء البحث.</p>';
-    } else if (data && data.length > 0) {
-        displayResults(data);
     } else {
-        providersList.innerHTML = '<p>لا توجد نتائج تطابق بحثك.</p>';
+        displayResults(data); // استدعاء دالة العرض
     }
 }
 
-// --- دالة عرض النتائج في الصفحة ---
 function displayResults(results) {
     const providersList = document.getElementById('providersList');
     if (!providersList) {
@@ -257,7 +250,7 @@ function displayResults(results) {
                 <h3>${provider.name}</h3>
                 <p><strong>الخدمة:</strong> ${provider.service}</p>
                 <p><strong>المدينة:</strong> ${provider.city}</p>
-                ${provider.years_of_experience ? `<p><strong>الخبرة:</strong> ${provider.years_of_experience} سنوات</p>` : ''}
+                ${provider.years_experience ? `<p><strong>الخبرة:</strong> ${provider.years_experience} سنوات</p>` : ''}
                 ${provider.description ? `<p>${provider.description}</p>` : ''}
                 <div class="provider-contact">
                     <a href="tel:${provider.phone}" class="btn btn-primary"><i class="fas fa-phone"></i> اتصال</a>
@@ -268,4 +261,5 @@ function displayResults(results) {
     });
     providersList.innerHTML = content;
 }
+
 
